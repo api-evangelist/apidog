@@ -1,0 +1,295 @@
+openapi: 3.1.0
+info:
+  title: Apidog API
+  description: >-
+    Apidog provides a public REST API that allows developers to programmatically
+    interact with Apidog projects for importing and exporting API specifications,
+    managing endpoints, schemas, environments, and more. All API URLs begin with
+    the base URL https://api.apidog.com. Authentication is via Bearer Token
+    passed in the Authorization header.
+  version: 2024-03-28
+  contact:
+    name: Apidog
+    url: https://apidog.com/
+  termsOfService: https://legal.apidog.com/
+externalDocs:
+  description: Apidog API Documentation
+  url: https://openapi.apidog.io/
+servers:
+  - url: https://api.apidog.com
+    description: Apidog Production API
+security:
+  - bearerAuth: []
+tags:
+  - name: Import & Export
+    description: Import and export API specification data in various formats.
+  - name: Projects
+    description: Manage Apidog projects.
+  - name: Endpoints
+    description: Manage API endpoints within a project.
+  - name: Schemas
+    description: Manage data schemas within a project.
+  - name: Environments
+    description: Manage environments within a project.
+paths:
+  /v1/projects/{projectId}/import-openapi:
+    post:
+      operationId: importOpenApiData
+      summary: Import OpenAPI/Swagger Data
+      description: >-
+        Import API specification data in OpenAPI 3 or Swagger 2 format into the
+        specified project. The specification can be provided as a string or URL.
+        Supports advanced import options including target folder selection,
+        endpoint overwrite behavior, and environment import from server
+        definitions.
+      tags:
+        - Import & Export
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+        - $ref: '#/components/parameters/apidogApiVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - input
+              properties:
+                input:
+                  type: string
+                  description: >-
+                    The OpenAPI/Swagger specification as a JSON or YAML string,
+                    or a URL pointing to the specification file.
+                options:
+                  type: object
+                  description: Advanced import options.
+                  properties:
+                    targetFolderId:
+                      type: integer
+                      description: >-
+                        The folder ID where endpoints will be stored or matched.
+                        Defaults to the root folder if not specified.
+                    targetSchemaFolderId:
+                      type: integer
+                      description: >-
+                        The folder ID where schemas will be stored or matched.
+                        Defaults to the root folder if not specified.
+                    endpointOverwriteMode:
+                      type: string
+                      description: >-
+                        Specifies behavior when an endpoint already exists.
+                      enum:
+                        - override
+                        - merge
+                        - skip
+                        - create
+                    importServersAsEnvironments:
+                      type: boolean
+                      description: >-
+                        If true, server definitions in the spec will be imported
+                        as environments in the project.
+      responses:
+        '200':
+          description: Import completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/projects/{projectId}/export-openapi:
+    post:
+      operationId: exportOpenApiData
+      summary: Export Data in OpenAPI/Swagger Format
+      description: >-
+        Export the API specification data from the specified project in
+        OpenAPI/Swagger format. You can specify the target OpenAPI version
+        and the output file format.
+      tags:
+        - Import & Export
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+        - $ref: '#/components/parameters/apidogApiVersion'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                version:
+                  type: string
+                  description: >-
+                    The version of the OpenAPI specification to export.
+                  enum:
+                    - '2.0'
+                    - '3.0'
+                    - '3.1'
+                  default: '3.0'
+                format:
+                  type: string
+                  description: The format of the exported file.
+                  enum:
+                    - JSON
+                    - YAML
+                  default: JSON
+                endpointIds:
+                  type: array
+                  description: >-
+                    Optional list of specific endpoint IDs to export. If not
+                    provided, all endpoints are exported.
+                  items:
+                    type: integer
+                tags:
+                  type: array
+                  description: >-
+                    Optional list of tags to filter which endpoints to export.
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Export completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/projects/{projectId}/import-postman:
+    post:
+      operationId: importPostmanCollectionData
+      summary: Import Postman Collection Data
+      description: >-
+        Import API data from a Postman Collection (v2 format) into the specified
+        project. The collection should be provided as stringified JSON.
+      tags:
+        - Import & Export
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+        - $ref: '#/components/parameters/apidogApiVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - input
+              properties:
+                input:
+                  type: string
+                  description: >-
+                    The Postman Collection v2 data as a stringified JSON string.
+                options:
+                  type: object
+                  description: Advanced import options.
+                  properties:
+                    targetFolderId:
+                      type: integer
+                      description: >-
+                        The folder ID where endpoints will be stored. Defaults
+                        to the root folder if not specified.
+      responses:
+        '200':
+          description: Import completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Apidog API uses Bearer Token authorization. Include your access token
+        in the Authorization header as "Bearer {token}".
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The unique identifier of the Apidog project.
+      schema:
+        type: integer
+    apidogApiVersion:
+      name: X-Apidog-Api-Version
+      in: header
+      required: false
+      description: >-
+        The version of the Apidog API to use. Defaults to the latest version
+        if not specified.
+      schema:
+        type: string
+        example: '2024-03-28'
+  schemas:
+    ImportResult:
+      type: object
+      description: Result of an import operation.
+      properties:
+        success:
+          type: boolean
+          description: Whether the import was successful.
+        data:
+          type: object
+          properties:
+            endpointCount:
+              type: integer
+              description: Number of endpoints imported.
+            schemaCount:
+              type: integer
+              description: Number of schemas imported.
+            environmentCount:
+              type: integer
+              description: Number of environments imported.
+    ExportResult:
+      type: object
+      description: Result of an export operation.
+      properties:
+        success:
+          type: boolean
+          description: Whether the export was successful.
+        data:
+          type: string
+          description: >-
+            The exported API specification data as a string in the requested
+            format.
+    Error:
+      type: object
+      description: Standard error response.
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code.
+            message:
+              type: string
+              description: Human-readable error message.
+  responses:
+    Unauthorized:
+      description: >-
+        Authentication failed. The Bearer Token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified project was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

@@ -10,6 +10,10 @@ apis:
     properties:
       - url: https://apidog.com/
         type: Documentation
+      - url: https://openapi.apidog.io/
+        type: Documentation
+      - url: openapi/apidog-apidog-openapi.yml
+        type: OpenAPI
     description: >-
       Apidog is a complete set of tools that connects the entire API lifecycle,
       helping R&D teams implement best practices for API Design-first
@@ -24,7 +28,7 @@ type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2025-01-08'
-modified: '2025-01-14'
+modified: '2026-03-14'
 position: Consumer
 description: >-
   Apidog is a complete set of tools that connects the entire API lifecycle,
