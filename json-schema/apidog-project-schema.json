@@ -1,0 +1,47 @@
+{
+  "$id": "https://raw.githubusercontent.com/api-evangelist/apidog/refs/heads/main/json-schema/apidog-project-schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Apidog Project",
+  "description": "Represents an Apidog project, the top-level container for endpoints, schemas, and environments managed through the Apidog API.",
+  "type": "object",
+  "required": [
+    "projectId"
+  ],
+  "properties": {
+    "projectId": {
+      "type": "integer",
+      "description": "The unique identifier of the Apidog project."
+    },
+    "name": {
+      "type": "string",
+      "description": "The human-readable name of the project."
+    },
+    "description": {
+      "type": "string",
+      "description": "A brief description of what this project contains."
+    },
+    "endpointCount": {
+      "type": "integer",
+      "description": "Total number of API endpoints in the project.",
+      "minimum": 0
+    },
+    "schemaCount": {
+      "type": "integer",
+      "description": "Total number of data schemas in the project.",
+      "minimum": 0
+    },
+    "environmentCount": {
+      "type": "integer",
+      "description": "Total number of environments configured in the project.",
+      "minimum": 0
+    },
+    "apiVersion": {
+      "type": "string",
+      "description": "The Apidog API version used when interacting with this project.",
+      "examples": [
+        "2024-03-28"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

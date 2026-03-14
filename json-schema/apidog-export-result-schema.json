@@ -1,0 +1,21 @@
+{
+  "$id": "https://raw.githubusercontent.com/api-evangelist/apidog/refs/heads/main/json-schema/apidog-export-result-schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Apidog Export Result",
+  "description": "The result returned by the Apidog API after an export operation, containing the exported API specification data.",
+  "type": "object",
+  "required": [
+    "success"
+  ],
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the export operation completed successfully."
+    },
+    "data": {
+      "type": "string",
+      "description": "The exported API specification data as a string in the requested format (JSON or YAML)."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,38 @@
+{
+  "$id": "https://raw.githubusercontent.com/api-evangelist/apidog/refs/heads/main/json-schema/apidog-error-schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Apidog Error",
+  "description": "Standard error response returned by the Apidog API when a request fails due to authentication issues, missing resources, or other problems.",
+  "type": "object",
+  "required": [
+    "success",
+    "error"
+  ],
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Always false for error responses.",
+      "const": false
+    },
+    "error": {
+      "type": "object",
+      "description": "Details about the error that occurred.",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "A machine-readable error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "A human-readable error message describing what went wrong."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

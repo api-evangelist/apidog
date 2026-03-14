@@ -1,0 +1,46 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "apidog": "https://api.apidog.com/v1/",
+    "projectId": {
+      "@id": "apidog:projectId",
+      "@type": "xsd:integer"
+    },
+    "endpointCount": {
+      "@id": "apidog:endpointCount",
+      "@type": "xsd:integer"
+    },
+    "schemaCount": {
+      "@id": "apidog:schemaCount",
+      "@type": "xsd:integer"
+    },
+    "environmentCount": {
+      "@id": "apidog:environmentCount",
+      "@type": "xsd:integer"
+    },
+    "apiVersion": {
+      "@id": "apidog:apiVersion",
+      "@type": "xsd:string"
+    },
+    "success": {
+      "@id": "apidog:success",
+      "@type": "xsd:boolean"
+    },
+    "errorCode": {
+      "@id": "apidog:errorCode",
+      "@type": "xsd:string"
+    },
+    "errorMessage": {
+      "@id": "apidog:errorMessage",
+      "@type": "xsd:string"
+    },
+    "exportData": {
+      "@id": "apidog:exportData",
+      "@type": "xsd:string"
+    },
+    "name": "schema:name",
+    "description": "schema:description",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/"
+  }
+}

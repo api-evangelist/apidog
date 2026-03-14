@@ -1,0 +1,39 @@
+{
+  "$id": "https://raw.githubusercontent.com/api-evangelist/apidog/refs/heads/main/json-schema/apidog-import-result-schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Apidog Import Result",
+  "description": "The result returned by the Apidog API after an import operation (OpenAPI, Swagger, or Postman Collection).",
+  "type": "object",
+  "required": [
+    "success"
+  ],
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the import operation completed successfully."
+    },
+    "data": {
+      "type": "object",
+      "description": "Details about the imported resources.",
+      "properties": {
+        "endpointCount": {
+          "type": "integer",
+          "description": "Number of endpoints imported.",
+          "minimum": 0
+        },
+        "schemaCount": {
+          "type": "integer",
+          "description": "Number of schemas imported.",
+          "minimum": 0
+        },
+        "environmentCount": {
+          "type": "integer",
+          "description": "Number of environments imported.",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
