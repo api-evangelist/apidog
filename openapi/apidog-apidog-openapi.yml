@@ -35,7 +35,7 @@ paths:
   /v1/projects/{projectId}/import-openapi:
     post:
       operationId: importOpenApiData
-      summary: Import OpenAPI/Swagger Data
+      summary: Apidog Import OpenAPI/Swagger Data
       description: >-
         Import API specification data in OpenAPI 3 or Swagger 2 format into the
         specified project. The specification can be provided as a string or URL.
@@ -103,7 +103,7 @@ paths:
   /v1/projects/{projectId}/export-openapi:
     post:
       operationId: exportOpenApiData
-      summary: Export Data in OpenAPI/Swagger Format
+      summary: Apidog Export Data in OpenAPI/Swagger Format
       description: >-
         Export the API specification data from the specified project in
         OpenAPI/Swagger format. You can specify the target OpenAPI version
@@ -163,7 +163,7 @@ paths:
   /v1/projects/{projectId}/import-postman:
     post:
       operationId: importPostmanCollectionData
-      summary: Import Postman Collection Data
+      summary: Apidog Import Postman Collection Data
       description: >-
         Import API data from a Postman Collection (v2 format) into the specified
         project. The collection should be provided as stringified JSON.
