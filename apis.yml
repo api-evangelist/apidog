@@ -4,8 +4,7 @@ url: >-
 apis:
   - aid: apidog:apidog
     name: Apidog
-    tags:
-      - API
+    tags: []
     humanURL: https://apidog.com/
     properties:
       - url: https://apidog.com/
@@ -30,10 +29,10 @@ apis:
       development.
 name: Apidog
 tags:
-  - Platform
-  - Lifecycle
   - Design
   - Design-First
+  - Lifecycle
+  - Platform
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party

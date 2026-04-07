@@ -23,14 +23,6 @@ security:
 tags:
   - name: Import & Export
     description: Import and export API specification data in various formats.
-  - name: Projects
-    description: Manage Apidog projects.
-  - name: Endpoints
-    description: Manage API endpoints within a project.
-  - name: Schemas
-    description: Manage data schemas within a project.
-  - name: Environments
-    description: Manage environments within a project.
 paths:
   /v1/projects/{projectId}/import-openapi:
     post:
