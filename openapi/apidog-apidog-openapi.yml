@@ -16,13 +16,13 @@ externalDocs:
   description: Apidog API Documentation
   url: https://openapi.apidog.io/
 servers:
-  - url: https://api.apidog.com
-    description: Apidog Production API
+- url: https://api.apidog.com
+  description: Apidog Production API
 security:
-  - bearerAuth: []
+- bearerAuth: []
 tags:
-  - name: Import & Export
-    description: Import and export API specification data in various formats.
+- name: Import & Export
+  description: Import and export API specification data in various formats.
 paths:
   /v1/projects/{projectId}/import-openapi:
     post:
@@ -35,10 +35,10 @@ paths:
         endpoint overwrite behavior, and environment import from server
         definitions.
       tags:
-        - Import & Export
+      - Import & Export
       parameters:
-        - $ref: '#/components/parameters/projectId'
-        - $ref: '#/components/parameters/apidogApiVersion'
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/apidogApiVersion'
       requestBody:
         required: true
         content:
@@ -46,7 +46,7 @@ paths:
             schema:
               type: object
               required:
-                - input
+              - input
               properties:
                 input:
                   type: string
@@ -72,15 +72,24 @@ paths:
                       description: >-
                         Specifies behavior when an endpoint already exists.
                       enum:
-                        - override
-                        - merge
-                        - skip
-                        - create
+                      - override
+                      - merge
+                      - skip
+                      - create
                     importServersAsEnvironments:
                       type: boolean
                       description: >-
                         If true, server definitions in the spec will be imported
                         as environments in the project.
+            examples:
+              ImportOpenApiDataRequestExample:
+                summary: Default importOpenApiData request
+                x-microcks-default: true
+                value:
+                  input: "openapi: 3.0.0\ninfo:\n  title: Example API\n  version: 1.0.0\npaths: {}"
+                  options:
+                    endpointOverwriteMode: merge
+                    importServersAsEnvironments: true
       responses:
         '200':
           description: Import completed successfully.
@@ -88,10 +97,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImportResult'
+              examples:
+                ImportOpenApiData200Example:
+                  summary: Default importOpenApiData 200 response
+                  x-microcks-default: true
+                  value:
+                    success: true
+                    data:
+                      endpointCount: 5
+                      schemaCount: 3
+                      environmentCount: 1
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/projects/{projectId}/export-openapi:
     post:
       operationId: exportOpenApiData
@@ -101,10 +123,10 @@ paths:
         OpenAPI/Swagger format. You can specify the target OpenAPI version
         and the output file format.
       tags:
-        - Import & Export
+      - Import & Export
       parameters:
-        - $ref: '#/components/parameters/projectId'
-        - $ref: '#/components/parameters/apidogApiVersion'
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/apidogApiVersion'
       requestBody:
         required: false
         content:
@@ -117,16 +139,16 @@ paths:
                   description: >-
                     The version of the OpenAPI specification to export.
                   enum:
-                    - '2.0'
-                    - '3.0'
-                    - '3.1'
+                  - '2.0'
+                  - '3.0'
+                  - '3.1'
                   default: '3.0'
                 format:
                   type: string
                   description: The format of the exported file.
                   enum:
-                    - JSON
-                    - YAML
+                  - JSON
+                  - YAML
                   default: JSON
                 endpointIds:
                   type: array
@@ -141,6 +163,13 @@ paths:
                     Optional list of tags to filter which endpoints to export.
                   items:
                     type: string
+            examples:
+              ExportOpenApiDataRequestExample:
+                summary: Default exportOpenApiData request
+                x-microcks-default: true
+                value:
+                  version: '3.0'
+                  format: JSON
       responses:
         '200':
           description: Export completed successfully.
@@ -148,10 +177,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExportResult'
+              examples:
+                ExportOpenApiData200Example:
+                  summary: Default exportOpenApiData 200 response
+                  x-microcks-default: true
+                  value:
+                    success: true
+                    data: "openapi: 3.0.0\ninfo:\n  title: My API\n  version: 1.0.0\npaths: {}"
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/projects/{projectId}/import-postman:
     post:
       operationId: importPostmanCollectionData
@@ -160,10 +199,10 @@ paths:
         Import API data from a Postman Collection (v2 format) into the specified
         project. The collection should be provided as stringified JSON.
       tags:
-        - Import & Export
+      - Import & Export
       parameters:
-        - $ref: '#/components/parameters/projectId'
-        - $ref: '#/components/parameters/apidogApiVersion'
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/apidogApiVersion'
       requestBody:
         required: true
         content:
@@ -171,7 +210,7 @@ paths:
             schema:
               type: object
               required:
-                - input
+              - input
               properties:
                 input:
                   type: string
@@ -186,6 +225,12 @@ paths:
                       description: >-
                         The folder ID where endpoints will be stored. Defaults
                         to the root folder if not specified.
+            examples:
+              ImportPostmanCollectionDataRequestExample:
+                summary: Default importPostmanCollectionData request
+                x-microcks-default: true
+                value:
+                  input: '{"info":{"name":"Example Collection","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},"item":[]}'
       responses:
         '200':
           description: Import completed successfully.
@@ -193,10 +238,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImportResult'
+              examples:
+                ImportPostmanCollectionData200Example:
+                  summary: Default importPostmanCollectionData 200 response
+                  x-microcks-default: true
+                  value:
+                    success: true
+                    data:
+                      endpointCount: 5
+                      schemaCount: 3
+                      environmentCount: 1
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   securitySchemes:
     bearerAuth:

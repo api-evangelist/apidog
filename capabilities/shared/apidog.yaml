@@ -1,0 +1,166 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Apidog API"
+  description: "Apidog public REST API for importing and exporting API specifications and managing projects."
+  tags:
+    - Apidog
+    - API Lifecycle
+    - Import
+    - Export
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      APIDOG_BEARER_TOKEN: APIDOG_BEARER_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: apidog
+      baseUri: https://api.apidog.com
+      description: "Apidog REST API for project management and API spec import/export."
+      authentication:
+        type: bearer
+        token: "{{APIDOG_BEARER_TOKEN}}"
+      resources:
+        - name: import-export
+          path: /v1/projects/{projectId}
+          description: "Import and export API specification data."
+          operations:
+            - name: import-openapi
+              method: POST
+              description: "Import OpenAPI/Swagger specification data into a project."
+              inputParameters:
+                - name: projectId
+                  in: path
+                  type: integer
+                  required: true
+                  description: "The unique identifier of the Apidog project."
+                - name: X-Apidog-Api-Version
+                  in: header
+                  type: string
+                  required: false
+                  description: "The version of the Apidog API to use."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: export-openapi
+              method: POST
+              description: "Export the API specification from a project in OpenAPI/Swagger format."
+              inputParameters:
+                - name: projectId
+                  in: path
+                  type: integer
+                  required: true
+                  description: "The unique identifier of the Apidog project."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: import-postman
+              method: POST
+              description: "Import API data from a Postman Collection into a project."
+              inputParameters:
+                - name: projectId
+                  in: path
+                  type: integer
+                  required: true
+                  description: "The unique identifier of the Apidog project."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: apidog-rest
+      resources:
+        - path: /v1/projects/{projectId}/import-openapi
+          name: import-openapi
+          description: "Import OpenAPI/Swagger spec into project."
+          operations:
+            - method: POST
+              name: import-openapi
+              description: "Import OpenAPI specification data."
+              call: "apidog.import-openapi"
+              with:
+                projectId: "rest.projectId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/projects/{projectId}/export-openapi
+          name: export-openapi
+          description: "Export OpenAPI/Swagger spec from project."
+          operations:
+            - method: POST
+              name: export-openapi
+              description: "Export OpenAPI specification data."
+              call: "apidog.export-openapi"
+              with:
+                projectId: "rest.projectId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/projects/{projectId}/import-postman
+          name: import-postman
+          description: "Import Postman collection into project."
+          operations:
+            - method: POST
+              name: import-postman
+              description: "Import Postman collection data."
+              call: "apidog.import-postman"
+              with:
+                projectId: "rest.projectId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9100
+      namespace: apidog-mcp
+      transport: http
+      tools:
+        - name: import-openapi-spec
+          description: "Import an OpenAPI/Swagger specification into an Apidog project."
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "apidog.import-openapi"
+          with:
+            projectId: "tools.projectId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: export-openapi-spec
+          description: "Export an OpenAPI/Swagger specification from an Apidog project."
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: "apidog.export-openapi"
+          with:
+            projectId: "tools.projectId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: import-postman-collection
+          description: "Import a Postman collection into an Apidog project."
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "apidog.import-postman"
+          with:
+            projectId: "tools.projectId"
+          outputParameters:
+            - type: object
+              mapping: "$."

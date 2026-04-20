@@ -1,0 +1,137 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "Apidog"
+  description: "Unified taxonomy of Apidog API lifecycle management covering operational OpenAPI dimensions and capability workflow dimensions."
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+operational:
+  apis:
+    - name: Apidog API
+      namespace: apidog
+      version: "2024-03-28"
+      baseUrl: https://api.apidog.com
+      status: active
+
+  resources:
+    - name: projects
+      apis:
+        - apidog
+      actions:
+        - import-openapi
+        - export-openapi
+        - import-postman
+
+  actions:
+    - name: import
+      http_method: POST
+      pattern: write
+      operations:
+        - importOpenApiData
+        - importPostmanCollectionData
+    - name: export
+      http_method: POST
+      pattern: read
+      operations:
+        - exportOpenApiData
+
+  schemas:
+    core:
+      - name: ImportResult
+        description: Result of an import operation including endpoint, schema, and environment counts.
+      - name: ExportResult
+        description: Result of an export operation containing the specification data as a string.
+      - name: Error
+        description: Standard error response with code and message.
+
+  parameters:
+    identifiers:
+      - name: projectId
+        description: Unique identifier for an Apidog project.
+        type: integer
+    headers:
+      - name: X-Apidog-Api-Version
+        description: API version header for specifying Apidog API version.
+        type: string
+
+  enums:
+    import_modes:
+      - override
+      - merge
+      - skip
+      - create
+    export_versions:
+      - "2.0"
+      - "3.0"
+      - "3.1"
+    export_formats:
+      - JSON
+      - YAML
+
+  authentication:
+    schemes:
+      - name: bearerAuth
+        type: bearer
+        description: Bearer token authentication via Authorization header.
+
+capability:
+  workflows:
+    - name: API Lifecycle Management
+      file: capabilities/api-lifecycle-management.yaml
+      description: Unified workflow for managing API specifications lifecycle.
+      apis_combined:
+        - Apidog API
+      tool_count: 3
+      personas:
+        - API Developer
+        - Platform Engineer
+
+  personas:
+    - id: api-developer
+      name: API Developer
+      description: Developer building and managing APIs using Apidog's design-first platform.
+      workflows:
+        - API Lifecycle Management
+    - id: platform-engineer
+      name: Platform Engineer
+      description: Engineer automating API specification workflows via CI/CD integration.
+      workflows:
+        - API Lifecycle Management
+
+  domains:
+    - name: API Lifecycle
+      description: Managing the complete lifecycle of API specifications from design to deployment.
+      resources:
+        - projects
+      workflows:
+        - API Lifecycle Management
+
+  namespaces:
+    - name: apidog
+      type: consumed
+      baseUri: https://api.apidog.com
+    - name: apidog-lifecycle-api
+      type: rest-exposed
+      port: 8080
+    - name: apidog-lifecycle-mcp
+      type: mcp-exposed
+      port: 9090
+
+  binds:
+    - name: APIDOG_BEARER_TOKEN
+      description: Bearer token for Apidog API authentication.
+      workflows:
+        - API Lifecycle Management
+
+crossReference:
+  - resource: projects
+    operations:
+      - importOpenApiData
+      - exportOpenApiData
+      - importPostmanCollectionData
+    workflows:
+      - API Lifecycle Management
+    personas:
+      - API Developer
+      - Platform Engineer

@@ -1,0 +1,191 @@
+extends: spectral:oas
+rules:
+  # INFO / METADATA
+  info-title-prefix:
+    description: API title must start with 'Apidog'.
+    severity: warn
+    given: '$.info'
+    then:
+      field: title
+      function: pattern
+      functionOptions:
+        match: '^Apidog'
+
+  info-description-required:
+    description: API must have a description.
+    severity: error
+    given: '$.info'
+    then:
+      field: description
+      function: truthy
+
+  info-version-required:
+    description: API must have a version.
+    severity: error
+    given: '$.info'
+    then:
+      field: version
+      function: truthy
+
+  # OPENAPI VERSION
+  openapi-version-3:
+    description: Specs must use OpenAPI 3.x.
+    severity: warn
+    given: '$'
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: '^3\.'
+
+  # SERVERS
+  servers-defined:
+    description: Servers must be defined.
+    severity: error
+    given: '$'
+    then:
+      field: servers
+      function: truthy
+
+  servers-https:
+    description: All server URLs must use HTTPS.
+    severity: error
+    given: '$.servers[*]'
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: '^https://'
+
+  # PATHS — NAMING CONVENTIONS
+  paths-kebab-case:
+    description: Path segments must use kebab-case.
+    severity: warn
+    given: '$.paths'
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: '^(/[a-z0-9{}-]+)+$'
+
+  paths-no-trailing-slash:
+    description: Paths must not have a trailing slash.
+    severity: warn
+    given: '$.paths'
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        notMatch: '/$'
+
+  # OPERATIONS
+  operation-summary-required:
+    description: Every operation must have a summary.
+    severity: error
+    given: '$.paths[*][get,post,put,patch,delete]'
+    then:
+      field: summary
+      function: truthy
+
+  operation-summary-prefix:
+    description: Operation summaries must start with 'Apidog'.
+    severity: warn
+    given: '$.paths[*][get,post,put,patch,delete]'
+    then:
+      field: summary
+      function: pattern
+      functionOptions:
+        match: '^Apidog'
+
+  operation-description-required:
+    description: Every operation must have a description.
+    severity: warn
+    given: '$.paths[*][get,post,put,patch,delete]'
+    then:
+      field: description
+      function: truthy
+
+  operation-id-required:
+    description: Every operation must have an operationId.
+    severity: error
+    given: '$.paths[*][get,post,put,patch,delete]'
+    then:
+      field: operationId
+      function: truthy
+
+  operation-id-camelcase:
+    description: OperationId must use camelCase.
+    severity: warn
+    given: '$.paths[*][get,post,put,patch,delete]'
+    then:
+      field: operationId
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9]*$'
+
+  operation-tags-required:
+    description: Every operation must have at least one tag.
+    severity: warn
+    given: '$.paths[*][get,post,put,patch,delete]'
+    then:
+      field: tags
+      function: truthy
+
+  # TAGS
+  tag-description-required:
+    description: All tags must have a description.
+    severity: warn
+    given: '$.tags[*]'
+    then:
+      field: description
+      function: truthy
+
+  # PARAMETERS
+  parameter-description-required:
+    description: All parameters must have a description.
+    severity: warn
+    given: '$.paths[*][get,post,put,patch,delete].parameters[*]'
+    then:
+      field: description
+      function: truthy
+
+  # RESPONSES
+  response-success-required:
+    description: Every operation must have a 2xx response.
+    severity: error
+    given: '$.paths[*][get,post,put,patch,delete].responses'
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ['200']
+            - required: ['201']
+            - required: ['204']
+
+  response-401-required:
+    description: Protected operations should have a 401 response.
+    severity: warn
+    given: '$.paths[*][post,put,patch,delete].responses'
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          required: ['401']
+
+  # SECURITY
+  security-scheme-defined:
+    description: Security schemes must be defined in components.
+    severity: error
+    given: '$.components.securitySchemes'
+    then:
+      function: truthy
+
+  # HTTP METHOD CONVENTIONS
+  post-has-request-body:
+    description: POST operations should have a request body.
+    severity: warn
+    given: '$.paths[*].post'
+    then:
+      field: requestBody
+      function: truthy
