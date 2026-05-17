@@ -61,7 +61,7 @@ apis:
       - url: json-schema/apidog-error-schema.json
         type: JSONSchema
       - url: json-ld/apidog-context.jsonld
-        type: JSON-LD
+        type: JSONLD
 common:
   - url: https://apidog.com/
     type: Website
