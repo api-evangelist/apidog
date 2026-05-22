@@ -1,0 +1,50 @@
+{
+  "operationId": "importPostmanCollectionData",
+  "method": "POST",
+  "path": "/v1/projects/{projectId}/import-postman-collection",
+  "request": {
+    "headers": {
+      "Authorization": "Bearer YOUR_APIDOG_ACCESS_TOKEN",
+      "X-Apidog-Api-Version": "2024-03-28",
+      "Content-Type": "application/json"
+    },
+    "pathParams": {
+      "projectId": 123456
+    },
+    "body": {
+      "input": "{\"info\":{\"name\":\"Example Collection\",\"schema\":\"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"},\"item\":[{\"name\":\"List Pets\",\"request\":{\"method\":\"GET\",\"url\":\"https://api.example.com/pets\"}}]}",
+      "options": {
+        "targetEndpointFolderId": 0,
+        "endpointOverwriteBehavior": "AUTO_MERGE",
+        "endpointCaseOverwriteBehavior": "AUTO_MERGE",
+        "updateFolderOfChangedEndpoint": true
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "endpoint": {
+          "created": 1,
+          "updated": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        "endpointFolder": {
+          "created": 0,
+          "updated": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        "endpointCase": {
+          "created": 0,
+          "updated": 0,
+          "failed": 0,
+          "ignored": 0
+        }
+      }
+    }
+  }
+}

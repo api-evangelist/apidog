@@ -1,0 +1,52 @@
+{
+  "operationId": "importOpenApiData",
+  "method": "POST",
+  "path": "/v1/projects/{projectId}/import-openapi",
+  "request": {
+    "headers": {
+      "Authorization": "Bearer YOUR_APIDOG_ACCESS_TOKEN",
+      "X-Apidog-Api-Version": "2024-03-28",
+      "Content-Type": "application/json"
+    },
+    "pathParams": {
+      "projectId": 123456
+    },
+    "body": {
+      "input": "openapi: 3.0.0\ninfo:\n  title: Example Pet Store\n  version: 1.0.0\npaths:\n  /pets:\n    get:\n      summary: List pets\n      responses:\n        '200':\n          description: OK\n",
+      "options": {
+        "targetEndpointFolderId": 0,
+        "targetSchemaFolderId": 0,
+        "endpointOverwriteBehavior": "AUTO_MERGE",
+        "schemaOverwriteBehavior": "AUTO_MERGE",
+        "deleteUnmatchedResources": false,
+        "importServersAsEnvironments": true
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "endpoint": {
+          "created": 1,
+          "updated": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        "schema": {
+          "created": 0,
+          "updated": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        "endpointFolder": {
+          "created": 0,
+          "updated": 0,
+          "failed": 0,
+          "ignored": 0
+        }
+      }
+    }
+  }
+}

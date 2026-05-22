@@ -9,9 +9,9 @@ alignedWith:
 provider: Apidog
 providerId: apidog
 publisherName: Apidog
-serviceCategory: API
+serviceCategory: Developer Tools
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-22'
 tags:
   - API Design
   - API Lifecycle
@@ -24,20 +24,24 @@ tags:
   - FinOps
   - Cost Management
   - FOCUS
-description: FinOps framework definition for the Apidog API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
+description: >-
+  FinOps framework definition for the Apidog platform. Apidog bills on a
+  per-seat SaaS subscription model, not per-request, so the dominant FinOps
+  signal is seat utilization and project / branch / scheduled-task
+  entitlements per plan tier. This file captures that subscription billing
+  model in FOCUS-aligned form.
+sourceUrls:
+  - https://apidog.com/pricing/
+  - https://docs.apidog.com/overview-616932m0
 principles:
   - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
+    description: Make Apidog seat assignments, plan tier, and feature usage visible to engineering managers and finance.
   - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
+    description: Tag each seat to a consuming team and project so cost can be allocated; reconcile against active-user counts.
   - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
+    description: Right-size seat count by reviewing actual usage, deactivating dormant accounts, and choosing the lowest tier that covers required entitlements.
   - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
+    description: Establish a single owner per Apidog organization who is accountable for seat growth, plan upgrades, and on-premises contracts.
 domains:
   - name: Understand Usage and Cost
     capabilities:
@@ -54,24 +58,19 @@ domains:
       - Unit Economics
   - name: Optimize Usage and Cost
     capabilities:
-      - Architecting for Cloud
       - Rate Optimization
       - Workload Optimization
-      - Cloud Sustainability
       - Licensing and SaaS
   - name: Manage the FinOps Practice
     capabilities:
       - FinOps Practice Operations
-      - FinOps Education and Enablement
       - Invoicing and Chargeback
       - Onboarding Workloads
-      - Intersecting Disciplines
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
+  pricingCategory: Subscription
+  billingFrequency: Monthly Or Annual
   billingCurrency: USD
   chargeCategories:
-    - Usage
     - Purchase
     - Tax
     - Credit
@@ -79,41 +78,44 @@ billingModel:
   chargeFrequency: Recurring
 focusColumns:
   ServiceName: Apidog
-  ServiceCategory: Developer Tools / API
+  ServiceCategory: Developer Tools / API Platform
   ProviderName: Apidog
   PublisherName: Apidog
   InvoiceIssuerName: Apidog
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  PricingCategory: Subscription
+  PricingUnit: seat-month
   BillingCurrency: USD
-  ChargeCategory: Usage
+  ChargeCategory: Purchase
 meters:
-  - name: api_requests
-    description: Count of billable API requests
+  - name: seats
+    description: Count of paid seats assigned to the Apidog organization
+    unit: seat
+    aggregation: sum
+    dimensions:
+      - tier
+      - team
+      - billingCycle
+  - name: projects
+    description: Number of Apidog projects in use vs. plan-included projects
+    unit: project
+    aggregation: sum
+    dimensions:
+      - tier
+      - team
+  - name: scheduled_tasks
+    description: Number of active scheduled imports / tests
+    unit: task
+    aggregation: sum
+    dimensions:
+      - tier
+      - team
+  - name: mock_requests
+    description: Calls made against Apidog cloud mock servers (utilization signal, not directly billed)
     unit: request
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
-    aggregation: sum
-    dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
-    dimensions:
-      - api
-      - endpoint
-      - tier
+      - project
+      - branch
 apis:
   - name: Apidog
     baseURL: https://api.apidog.com
@@ -124,13 +126,16 @@ apis:
       - Import
       - Export
     serviceName: Apidog
-    serviceCategory: API
+    serviceCategory: Developer Tools
 unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
+  - name: Cost per Active Seat
+    metric: billed_cost / active_seats
+    target: align to Basic ($9), Professional ($18), or Enterprise ($27) annual-billing seat rate
+  - name: Seat Utilization
+    metric: active_seats / purchased_seats
+    target: '>= 0.80'
+  - name: Cost per Project
+    metric: billed_cost / projects_in_use
     target: TBD
 maintainers:
   - FN: Kin Lane

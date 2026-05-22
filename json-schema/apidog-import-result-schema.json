@@ -2,7 +2,7 @@
   "$id": "https://raw.githubusercontent.com/api-evangelist/apidog/refs/heads/main/json-schema/apidog-import-result-schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Apidog Import Result",
-  "description": "The result returned by the Apidog API after an import operation (OpenAPI, Swagger, or Postman Collection).",
+  "description": "The result returned by the Apidog API after an import operation (OpenAPI, Swagger, or Postman Collection v2). Counters are reported per resource type: endpoint, schema, endpointFolder, schemaFolder, endpointCase.",
   "type": "object",
   "required": [
     "success"
@@ -16,24 +16,63 @@
       "type": "object",
       "description": "Details about the imported resources.",
       "properties": {
-        "endpointCount": {
-          "type": "integer",
-          "description": "Number of endpoints imported.",
-          "minimum": 0
+        "endpoint": {
+          "$ref": "#/$defs/ResourceCounters"
         },
-        "schemaCount": {
-          "type": "integer",
-          "description": "Number of schemas imported.",
-          "minimum": 0
+        "schema": {
+          "$ref": "#/$defs/ResourceCounters"
         },
-        "environmentCount": {
-          "type": "integer",
-          "description": "Number of environments imported.",
-          "minimum": 0
+        "endpointFolder": {
+          "$ref": "#/$defs/ResourceCounters"
+        },
+        "schemaFolder": {
+          "$ref": "#/$defs/ResourceCounters"
+        },
+        "endpointCase": {
+          "$ref": "#/$defs/ResourceCounters"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
         }
       },
       "additionalProperties": false
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "ResourceCounters": {
+      "type": "object",
+      "description": "Counters returned for each resource type after an import operation.",
+      "properties": {
+        "created": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updated": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ignored": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  }
 }

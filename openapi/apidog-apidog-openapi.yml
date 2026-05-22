@@ -2,18 +2,19 @@ openapi: 3.1.0
 info:
   title: Apidog API
   description: >-
-    Apidog provides a public REST API that allows developers to programmatically
-    interact with Apidog projects for importing and exporting API specifications,
-    managing endpoints, schemas, environments, and more. All API URLs begin with
-    the base URL https://api.apidog.com. Authentication is via Bearer Token
-    passed in the Authorization header.
+    Apidog provides a public REST API that lets developers programmatically
+    interact with Apidog projects for importing and exporting API specifications.
+    All API URLs begin with the base URL https://api.apidog.com. The API is
+    versioned via the `X-Apidog-Api-Version` request header (current version:
+    `2024-03-28`). Authentication uses a personal API access token passed as a
+    Bearer Token in the `Authorization` header.
   version: 2024-03-28
   contact:
     name: Apidog
     url: https://apidog.com/
   termsOfService: https://legal.apidog.com/
 externalDocs:
-  description: Apidog API Documentation
+  description: Apidog OpenAPI Reference
   url: https://openapi.apidog.io/
 servers:
 - url: https://api.apidog.com
@@ -21,24 +22,25 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: Import & Export
-  description: Import and export API specification data in various formats.
+- name: Import And Export
+  description: Import and export API specification data in OpenAPI, Swagger, and Postman Collection formats.
 paths:
   /v1/projects/{projectId}/import-openapi:
     post:
       operationId: importOpenApiData
-      summary: Apidog Import OpenAPI/Swagger Data
+      summary: Import OpenAPI Or Swagger Data
       description: >-
         Import API specification data in OpenAPI 3 or Swagger 2 format into the
-        specified project. The specification can be provided as a string or URL.
-        Supports advanced import options including target folder selection,
-        endpoint overwrite behavior, and environment import from server
-        definitions.
+        specified Apidog project. The specification can be provided as a JSON
+        or YAML string, or fetched from a URL. Advanced options control target
+        folder, branch, module, overwrite behavior, and whether unmatched
+        resources are deleted.
       tags:
-      - Import & Export
+      - Import And Export
       parameters:
       - $ref: '#/components/parameters/projectId'
       - $ref: '#/components/parameters/apidogApiVersion'
+      - $ref: '#/components/parameters/locale'
       requestBody:
         required: true
         content:
@@ -49,38 +51,61 @@ paths:
               - input
               properties:
                 input:
-                  type: string
-                  description: >-
-                    The OpenAPI/Swagger specification as a JSON or YAML string,
-                    or a URL pointing to the specification file.
+                  oneOf:
+                  - type: string
+                    description: The OpenAPI/Swagger specification as a JSON or YAML string.
+                  - type: object
+                    required:
+                    - url
+                    properties:
+                      url:
+                        type: string
+                        format: uri
+                        description: URL pointing to the OpenAPI/Swagger specification file.
+                      basicAuth:
+                        type: object
+                        properties:
+                          username:
+                            type: string
+                          password:
+                            type: string
                 options:
                   type: object
                   description: Advanced import options.
                   properties:
-                    targetFolderId:
+                    targetEndpointFolderId:
                       type: integer
-                      description: >-
-                        The folder ID where endpoints will be stored or matched.
-                        Defaults to the root folder if not specified.
+                      description: Folder ID where endpoints will be stored. Defaults to the root folder.
                     targetSchemaFolderId:
                       type: integer
-                      description: >-
-                        The folder ID where schemas will be stored or matched.
-                        Defaults to the root folder if not specified.
-                    endpointOverwriteMode:
+                      description: Folder ID where schemas will be stored. Defaults to the root folder.
+                    endpointOverwriteBehavior:
                       type: string
-                      description: >-
-                        Specifies behavior when an endpoint already exists.
+                      description: How to handle endpoints whose path and method already exist.
                       enum:
-                      - override
-                      - merge
-                      - skip
-                      - create
+                      - OVERWRITE_EXISTING
+                      - AUTO_MERGE
+                      - KEEP_EXISTING
+                      - CREATE_NEW
+                    schemaOverwriteBehavior:
+                      type: string
+                      enum:
+                      - OVERWRITE_EXISTING
+                      - AUTO_MERGE
+                      - KEEP_EXISTING
+                      - CREATE_NEW
+                    deleteUnmatchedResources:
+                      type: boolean
+                      description: If true, resources not present in the imported spec are deleted.
+                    targetBranchId:
+                      type: integer
+                      description: Optional sprint branch to import into.
+                    moduleId:
+                      type: integer
+                      description: Optional module ID to import into.
                     importServersAsEnvironments:
                       type: boolean
-                      description: >-
-                        If true, server definitions in the spec will be imported
-                        as environments in the project.
+                      description: If true, server definitions in the spec are imported as environments.
             examples:
               ImportOpenApiDataRequestExample:
                 summary: Default importOpenApiData request
@@ -88,7 +113,7 @@ paths:
                 value:
                   input: "openapi: 3.0.0\ninfo:\n  title: Example API\n  version: 1.0.0\npaths: {}"
                   options:
-                    endpointOverwriteMode: merge
+                    endpointOverwriteBehavior: AUTO_MERGE
                     importServersAsEnvironments: true
       responses:
         '200':
@@ -104,26 +129,35 @@ paths:
                   value:
                     success: true
                     data:
-                      endpointCount: 5
-                      schemaCount: 3
-                      environmentCount: 1
+                      endpoint:
+                        created: 5
+                        updated: 0
+                        failed: 0
+                        ignored: 0
+                      schema:
+                        created: 3
+                        updated: 0
+                        failed: 0
+                        ignored: 0
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
   /v1/projects/{projectId}/export-openapi:
     post:
       operationId: exportOpenApiData
-      summary: Apidog Export Data in OpenAPI/Swagger Format
+      summary: Export Data In OpenAPI Or Swagger Format
       description: >-
-        Export the API specification data from the specified project in
-        OpenAPI/Swagger format. You can specify the target OpenAPI version
-        and the output file format.
+        Export the API specification data from the specified Apidog project in
+        OpenAPI 2.0, 3.0, or 3.1 format. Output is delivered as a fully-formed
+        OpenAPI document containing info, paths, components, tags, and servers.
       tags:
-      - Import & Export
+      - Import And Export
       parameters:
       - $ref: '#/components/parameters/projectId'
       - $ref: '#/components/parameters/apidogApiVersion'
@@ -134,42 +168,68 @@ paths:
             schema:
               type: object
               properties:
-                version:
+                scope:
                   type: string
-                  description: >-
-                    The version of the OpenAPI specification to export.
+                  description: Defines the export range.
+                  enum:
+                  - ALL
+                  - SELECTED_ENDPOINTS
+                  - SELECTED_TAGS
+                  - SELECTED_FOLDERS
+                  default: ALL
+                oasVersion:
+                  type: string
+                  description: Target OpenAPI version.
                   enum:
                   - '2.0'
                   - '3.0'
                   - '3.1'
                   default: '3.0'
-                format:
+                exportFormat:
                   type: string
-                  description: The format of the exported file.
+                  description: Output file format.
                   enum:
                   - JSON
                   - YAML
                   default: JSON
+                environmentIds:
+                  type: array
+                  description: Optional list of environment IDs to include as servers.
+                  items:
+                    type: integer
+                branchId:
+                  type: integer
+                  description: Optional sprint branch to export from.
+                moduleId:
+                  type: integer
+                  description: Optional module ID to export from.
                 endpointIds:
                   type: array
-                  description: >-
-                    Optional list of specific endpoint IDs to export. If not
-                    provided, all endpoints are exported.
+                  description: Optional list of specific endpoint IDs to export.
                   items:
                     type: integer
                 tags:
                   type: array
-                  description: >-
-                    Optional list of tags to filter which endpoints to export.
+                  description: Optional list of tags to filter which endpoints to export.
                   items:
                     type: string
+                options:
+                  type: object
+                  properties:
+                    includeApidogExtensionProperties:
+                      type: boolean
+                      description: Include Apidog OpenAPI x-apidog-* extensions in the export.
+                    includeFolderNamesAsTags:
+                      type: boolean
+                      description: Use folder names as tags in the exported spec.
             examples:
               ExportOpenApiDataRequestExample:
                 summary: Default exportOpenApiData request
                 x-microcks-default: true
                 value:
-                  version: '3.0'
-                  format: JSON
+                  scope: ALL
+                  oasVersion: '3.0'
+                  exportFormat: JSON
       responses:
         '200':
           description: Export completed successfully.
@@ -183,7 +243,13 @@ paths:
                   x-microcks-default: true
                   value:
                     success: true
-                    data: "openapi: 3.0.0\ninfo:\n  title: My API\n  version: 1.0.0\npaths: {}"
+                    data:
+                      openapi: '3.0.0'
+                      info:
+                        title: My API
+                        version: 1.0.0
+                      paths: {}
+                      components: {}
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
@@ -191,15 +257,16 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
-  /v1/projects/{projectId}/import-postman:
+  /v1/projects/{projectId}/import-postman-collection:
     post:
       operationId: importPostmanCollectionData
-      summary: Apidog Import Postman Collection Data
+      summary: Import Postman Collection Data
       description: >-
         Import API data from a Postman Collection (v2 format) into the specified
-        project. The collection should be provided as stringified JSON.
+        Apidog project. The collection should be provided as a stringified JSON
+        string exported from Postman.
       tags:
-      - Import & Export
+      - Import And Export
       parameters:
       - $ref: '#/components/parameters/projectId'
       - $ref: '#/components/parameters/apidogApiVersion'
@@ -214,17 +281,34 @@ paths:
               properties:
                 input:
                   type: string
-                  description: >-
-                    The Postman Collection v2 data as a stringified JSON string.
+                  description: The Postman Collection v2 data as a stringified JSON string.
                 options:
                   type: object
                   description: Advanced import options.
                   properties:
-                    targetFolderId:
+                    targetEndpointFolderId:
                       type: integer
-                      description: >-
-                        The folder ID where endpoints will be stored. Defaults
-                        to the root folder if not specified.
+                      description: Destination folder. Defaults to the project root folder.
+                    endpointOverwriteBehavior:
+                      type: string
+                      enum:
+                      - OVERWRITE_EXISTING
+                      - AUTO_MERGE
+                      - KEEP_EXISTING
+                      - CREATE_NEW
+                    endpointCaseOverwriteBehavior:
+                      type: string
+                      enum:
+                      - OVERWRITE_EXISTING
+                      - AUTO_MERGE
+                      - KEEP_EXISTING
+                      - CREATE_NEW
+                    updateFolderOfChangedEndpoint:
+                      type: boolean
+                    targetBranchId:
+                      type: integer
+                    moduleId:
+                      type: integer
             examples:
               ImportPostmanCollectionDataRequestExample:
                 summary: Default importPostmanCollectionData request
@@ -245,9 +329,21 @@ paths:
                   value:
                     success: true
                     data:
-                      endpointCount: 5
-                      schemaCount: 3
-                      environmentCount: 1
+                      endpoint:
+                        created: 5
+                        updated: 0
+                        failed: 0
+                        ignored: 0
+                      endpointFolder:
+                        created: 2
+                        updated: 0
+                        failed: 0
+                        ignored: 0
+                      endpointCase:
+                        created: 4
+                        updated: 0
+                        failed: 0
+                        ignored: 0
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
@@ -261,8 +357,9 @@ components:
       type: http
       scheme: bearer
       description: >-
-        Apidog API uses Bearer Token authorization. Include your access token
-        in the Authorization header as "Bearer {token}".
+        Apidog API uses Bearer Token authorization. Include your personal API
+        access token in the Authorization header as "Bearer {token}". Tokens
+        are generated under Avatar -> Account Settings -> API Access Token.
   parameters:
     projectId:
       name: projectId
@@ -274,14 +371,48 @@ components:
     apidogApiVersion:
       name: X-Apidog-Api-Version
       in: header
-      required: false
+      required: true
       description: >-
-        The version of the Apidog API to use. Defaults to the latest version
-        if not specified.
+        The Apidog API version. Required for all requests. Current supported
+        version is `2024-03-28`. Apidog supports previous versions for at
+        least three months after a newer version launches.
       schema:
         type: string
         example: '2024-03-28'
+    locale:
+      name: locale
+      in: query
+      required: false
+      description: Locale for response messages, e.g. `en-US`.
+      schema:
+        type: string
+        example: en-US
   schemas:
+    ResourceCounters:
+      type: object
+      description: Counters returned for each resource type after an import operation.
+      properties:
+        created:
+          type: integer
+          description: Number of resources created.
+        updated:
+          type: integer
+          description: Number of resources updated.
+        failed:
+          type: integer
+          description: Number of resources that failed to import.
+        ignored:
+          type: integer
+          description: Number of resources ignored (e.g. due to keep-existing policy).
+    ImportError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code.
+        message:
+          type: string
+          description: Human-readable error message.
     ImportResult:
       type: object
       description: Result of an import operation.
@@ -292,27 +423,32 @@ components:
         data:
           type: object
           properties:
-            endpointCount:
-              type: integer
-              description: Number of endpoints imported.
-            schemaCount:
-              type: integer
-              description: Number of schemas imported.
-            environmentCount:
-              type: integer
-              description: Number of environments imported.
+            endpoint:
+              $ref: '#/components/schemas/ResourceCounters'
+            schema:
+              $ref: '#/components/schemas/ResourceCounters'
+            endpointFolder:
+              $ref: '#/components/schemas/ResourceCounters'
+            schemaFolder:
+              $ref: '#/components/schemas/ResourceCounters'
+            endpointCase:
+              $ref: '#/components/schemas/ResourceCounters'
+            errors:
+              type: array
+              items:
+                $ref: '#/components/schemas/ImportError'
     ExportResult:
       type: object
-      description: Result of an export operation.
+      description: Result of an export operation. The `data` field contains a fully-formed OpenAPI document.
       properties:
         success:
           type: boolean
           description: Whether the export was successful.
         data:
-          type: string
-          description: >-
-            The exported API specification data as a string in the requested
-            format.
+          description: The exported OpenAPI/Swagger document, either as a string (when exportFormat is YAML) or as an object (when exportFormat is JSON).
+          oneOf:
+          - type: string
+          - type: object
     Error:
       type: object
       description: Standard error response.
@@ -339,6 +475,12 @@ components:
             $ref: '#/components/schemas/Error'
     NotFound:
       description: The specified project was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: The API version header is missing or unsupported.
       content:
         application/json:
           schema:

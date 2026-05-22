@@ -4,7 +4,7 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Apidog
 providerId: apidog
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-22'
 tags:
   - API Design
   - API Lifecycle
@@ -15,11 +15,19 @@ tags:
   - Mocking
   - Platform
   - Rate Limiting
-  - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the Apidog API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+description: >-
+  Apidog has not published explicit per-second / per-minute / per-month rate
+  limits for its public REST API at https://api.apidog.com. Documented
+  controls are instead tied to plan-level seat counts, project counts,
+  sprint-branch counts, and scheduled-task frequency. This file captures the
+  shape of those plan-level limits along with the standard 429 / Retry-After
+  signaling expected on the platform. Replace with provider-published
+  per-key limits if and when Apidog publishes them.
+sourceUrls:
+  - https://apidog.com/pricing/
+  - https://docs.apidog.com/overview-616932m0
+  - https://openapi.apidog.io/
 headers:
   limit: X-RateLimit-Limit
   remaining: X-RateLimit-Remaining
@@ -32,61 +40,81 @@ responseCodes:
   serviceUnavailable: 503
 limits:
   - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
+    name: Free Plan Members
+    scope: organization
+    metric: team_members
+    limit: 4
+    timeFrame: lifetime
     applies:
       - Apidog
   - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
+    name: Free Plan Projects
+    scope: organization
+    metric: projects
+    limit: 5
+    timeFrame: lifetime
+    applies:
+      - Apidog
+  - tier: free
+    name: Free Plan Sprint Branches Per Project
+    scope: project
+    metric: branches
+    limit: 1
+    timeFrame: lifetime
+    applies:
+      - Apidog
+  - tier: basic
+    name: Basic Plan Projects
+    scope: organization
+    metric: projects
+    limit: 20
+    timeFrame: lifetime
+    applies:
+      - Apidog
+  - tier: basic
+    name: Basic Plan Request History
+    scope: organization
+    metric: request_history_days
+    limit: 90
     timeFrame: month
     applies:
       - Apidog
   - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
+    name: Professional Plan Scheduled Import Interval
+    scope: organization
+    metric: scheduled_import_interval_minutes
+    limit: 10
     timeFrame: minute
-    applies:
-      - Apidog
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
     applies:
       - Apidog
   - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
+    name: Enterprise Plan Scheduled Tasks
+    scope: organization
+    metric: scheduled_tasks
+    limit: -1
+    timeFrame: month
     applies:
       - Apidog
 policies:
   - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
+    description: >-
+      Clients should implement exponential backoff with jitter and honor the
+      Retry-After header when a 429 response is returned.
   - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
+    description: >-
+      Plan-level entitlements (projects, members, branches) are persistent
+      and reset only on plan change. Scheduled-task and request-history
+      windows reset on a rolling basis aligned to the documented timeFrame.
   - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+    description: >-
+      Sustained automation against the public Apidog REST API that
+      materially impacts shared infrastructure may be subject to fair-use
+      throttling even when no explicit per-key limit is published.
+  - name: Versioning
+    description: >-
+      Requests must send the X-Apidog-Api-Version header. Apidog supports
+      previous versions for at least three months after a newer version is
+      released.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com

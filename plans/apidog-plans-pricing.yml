@@ -4,7 +4,7 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Apidog
 providerId: apidog
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-22'
 tags:
   - API Design
   - API Lifecycle
@@ -14,138 +14,230 @@ tags:
   - Documentation
   - Mocking
   - Platform
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+description: >-
+  Apidog is sold per seat as an all-in-one API design, debugging, testing,
+  mocking, and documentation platform rather than as a metered API. Plan
+  prices and entitlements below are sourced from the Apidog pricing page and
+  plan-introduction help docs and reflect annual-billing rates. The same
+  personal API access token works across plans for the public Apidog REST
+  API at https://api.apidog.com.
+sourceUrls:
+  - https://apidog.com/pricing/
+  - https://docs.apidog.com/overview-616932m0
 plans:
   - id: apidog-free
     name: Free
     type: freemium
-    description: Free entry tier for the Apidog API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+    description: >-
+      Free tier supporting up to four users with one Sprint Branch per project
+      and unlimited collection runs. Full API client, mocking, and docs are
+      included.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://api.apidog.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://api.apidog.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Apidog
-  - id: apidog-pro
-    name: Professional
-    type: paid
-    description: Production tier for Apidog. Provides higher quotas, priority support, and access to the
-      broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://api.apidog.com
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://api.apidog.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
+      - label: Seat Price
+        description: Per-member monthly price
+        name: seat_price
+        type: subscription
+        metric: seat_month
         limit: -1
         timeFrame: month
         geo: global
-        domains:
-          - https://api.apidog.com
-        unit: 1000
-        price: TBD
+        unit: 1
+        price: '0.00'
+        userMultiplied: true
+      - label: Team Members
+        description: Maximum number of team members
+        name: team_members
+        type: quota
+        metric: members
+        limit: 4
+        timeFrame: month
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Projects
+        description: Maximum projects per team
+        name: projects
+        type: quota
+        metric: projects
+        limit: 5
+        timeFrame: month
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Sprint Branches Per Project
+        description: Concurrent sprint branches per project
+        name: sprint_branches
+        type: quota
+        metric: branches_per_project
+        limit: 1
+        timeFrame: month
+        unit: 1
+        price: '0.00'
         userMultiplied: false
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Apidog
+      - name: API Design
+      - name: API Debugging
+      - name: API Mocking
+      - name: API Documentation Publishing
+      - name: Unlimited Collection Runs
+      - name: Community Support
+  - id: apidog-basic
+    name: Basic
+    type: paid
+    description: >-
+      Entry paid tier billed per seat. Unlocks expanded sprint branches,
+      90-day request history, up to 20 team projects, and API versioning.
+      $9/user/month at annual billing ($12/user/month if billed monthly).
+    entries:
+      - label: Seat Price
+        description: Per-member monthly price on annual billing
+        name: seat_price
+        type: subscription
+        metric: seat_month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '9.00'
+        userMultiplied: true
+      - label: Seat Price Monthly Billing
+        description: Per-member monthly price on monthly billing
+        name: seat_price_monthly
+        type: subscription
+        metric: seat_month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '12.00'
+        userMultiplied: true
+      - label: Team Members
+        description: Unlimited members
+        name: team_members
+        type: quota
+        metric: members
+        limit: -1
+        timeFrame: month
+        unit: 1
+        price: '9.00'
+        userMultiplied: true
+      - label: Projects
+        description: Maximum team projects
+        name: projects
+        type: quota
+        metric: projects
+        limit: 20
+        timeFrame: month
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Request History
+        description: Days of request history retained
+        name: request_history
+        type: quota
+        metric: days
+        limit: 90
+        timeFrame: month
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: API Versioning
+      - name: Expanded Sprint Branches
+      - name: Scheduled Imports
+      - name: Standard Support
+  - id: apidog-professional
+    name: Professional
+    type: paid
+    description: >-
+      Mid-tier per-seat plan with unlimited projects, team-level shared
+      variables, faster scheduled imports (every 10 minutes), the ability to
+      hide Apidog branding from published documentation, and priority
+      support. $18/user/month at annual billing.
+    entries:
+      - label: Seat Price
+        description: Per-member monthly price on annual billing
+        name: seat_price
+        type: subscription
+        metric: seat_month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '18.00'
+        userMultiplied: true
+      - label: Projects
+        description: Unlimited projects
+        name: projects
+        type: quota
+        metric: projects
+        limit: -1
+        timeFrame: month
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Scheduled Import Frequency
+        description: Minimum interval between scheduled imports
+        name: scheduled_import_interval
+        type: quota
+        metric: minutes
+        limit: 10
+        timeFrame: minute
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Unlimited Projects
+      - name: Team-Level Shared Variables
+      - name: White-Label Published Docs
+      - name: Priority Support
   - id: apidog-enterprise
     name: Enterprise
     type: enterprise
-    description: Custom-negotiated tier for Apidog. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
+    description: >-
+      Top tier per-seat plan with SSO (SAML 2.0, Microsoft AD, OIDC, SCIM),
+      multiple documentation sites, unlimited scheduled tasks, and 24/7
+      support. $27/user/month at annual billing. On-premises deployment is
+      available via custom contract.
     entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
+      - label: Seat Price
+        description: Per-member monthly price on annual billing
+        name: seat_price
+        type: subscription
+        metric: seat_month
         limit: -1
         timeFrame: month
-        geo: configurable
-        domains:
-          - https://api.apidog.com
+        geo: global
         unit: 1
-        price: custom
+        price: '27.00'
+        userMultiplied: true
+      - label: Scheduled Tasks
+        description: Unlimited scheduled tasks
+        name: scheduled_tasks
+        type: quota
+        metric: tasks
+        limit: -1
+        timeFrame: month
+        unit: 1
+        price: '0.00'
         userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://api.apidog.com
+      - label: Documentation Sites
+        description: Number of separate published documentation sites supported
+        name: documentation_sites
+        type: quota
+        metric: sites
+        limit: -1
+        timeFrame: month
         unit: 1
-        price: custom
+        price: '0.00'
         userMultiplied: false
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Apidog
+      - name: Enterprise SSO (SAML, AD, OIDC, SCIM)
+      - name: Multiple Documentation Sites
+      - name: Unlimited Scheduled Tasks
+      - name: 24/7 Support
+      - name: SOC 2 / GDPR / ISO 27001 Posture
+      - name: Optional On-Premises Deployment (custom pricing)
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com

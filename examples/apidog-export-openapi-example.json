@@ -1,0 +1,65 @@
+{
+  "operationId": "exportOpenApiData",
+  "method": "POST",
+  "path": "/v1/projects/{projectId}/export-openapi",
+  "request": {
+    "headers": {
+      "Authorization": "Bearer YOUR_APIDOG_ACCESS_TOKEN",
+      "X-Apidog-Api-Version": "2024-03-28",
+      "Content-Type": "application/json"
+    },
+    "pathParams": {
+      "projectId": 123456
+    },
+    "body": {
+      "scope": "ALL",
+      "oasVersion": "3.0",
+      "exportFormat": "JSON",
+      "options": {
+        "includeApidogExtensionProperties": true,
+        "includeFolderNamesAsTags": true
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "My API",
+          "version": "1.0.0",
+          "description": "Exported from Apidog"
+        },
+        "servers": [
+          {
+            "url": "https://api.example.com"
+          }
+        ],
+        "tags": [
+          {
+            "name": "Pets",
+            "description": "Pet operations"
+          }
+        ],
+        "paths": {
+          "/pets": {
+            "get": {
+              "summary": "List Pets",
+              "tags": ["Pets"],
+              "responses": {
+                "200": {
+                  "description": "OK"
+                }
+              }
+            }
+          }
+        },
+        "components": {
+          "schemas": {}
+        }
+      }
+    }
+  }
+}

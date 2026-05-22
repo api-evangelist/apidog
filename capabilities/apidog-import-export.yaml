@@ -1,74 +1,107 @@
 naftiko: 1.0.0-alpha2
 info:
-  label: Apidog API — Import & Export
-  description: 'Apidog API — Import & Export. 3 operations. Lead operation: Apidog Export Data in OpenAPI/Swagger Format.
-    Self-contained Naftiko capability covering one Apidog business surface.'
+  label: Apidog API - Import And Export
+  description: >-
+    Apidog API - Import And Export. 3 operations across the import/export
+    surface: import OpenAPI/Swagger, export OpenAPI/Swagger, and import Postman
+    Collection v2. Self-contained Naftiko capability covering Apidog's public
+    REST API as documented at https://openapi.apidog.io/.
   tags:
   - Apidog
-  - Import & Export
+  - Import And Export
+  - API Design
+  - API Lifecycle
   created: '2026-05-19'
-  modified: '2026-05-19'
+  modified: '2026-05-22'
 binds:
 - namespace: env
   keys:
     APIDOG_API_KEY: APIDOG_API_KEY
+    APIDOG_API_VERSION: APIDOG_API_VERSION
 capability:
   consumes:
   - type: http
     namespace: apidog-import-export
     baseUri: https://api.apidog.com
-    description: Apidog API — Import & Export business capability. Self-contained, no shared references.
+    description: Apidog API - Import And Export business capability. Self-contained, no shared references.
     resources:
     - name: v1-projects-projectId-export-openapi
       path: /v1/projects/{projectId}/export-openapi
       operations:
-      - name: exportopenapidata
+      - name: exportOpenApiData
         method: POST
-        description: Apidog Export Data in OpenAPI/Swagger Format
+        description: Export Data In OpenAPI Or Swagger Format
         outputRawFormat: json
         outputParameters:
         - name: result
           type: object
           value: $.
         inputParameters:
+        - name: projectId
+          in: path
+          type: integer
+          required: true
+        - name: X-Apidog-Api-Version
+          in: header
+          type: string
+          required: true
+          default: '2024-03-28'
         - name: body
           in: body
           type: object
-          description: Request body (JSON).
+          description: Request body (JSON) with scope, oasVersion, exportFormat, etc.
           required: false
     - name: v1-projects-projectId-import-openapi
       path: /v1/projects/{projectId}/import-openapi
       operations:
-      - name: importopenapidata
+      - name: importOpenApiData
         method: POST
-        description: Apidog Import OpenAPI/Swagger Data
+        description: Import OpenAPI Or Swagger Data
         outputRawFormat: json
         outputParameters:
         - name: result
           type: object
           value: $.
         inputParameters:
-        - name: body
-          in: body
-          type: object
-          description: Request body (JSON).
+        - name: projectId
+          in: path
+          type: integer
           required: true
-    - name: v1-projects-projectId-import-postman
-      path: /v1/projects/{projectId}/import-postman
+        - name: X-Apidog-Api-Version
+          in: header
+          type: string
+          required: true
+          default: '2024-03-28'
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON) with input (spec/url) and options.
+          required: true
+    - name: v1-projects-projectId-import-postman-collection
+      path: /v1/projects/{projectId}/import-postman-collection
       operations:
-      - name: importpostmancollectiondata
+      - name: importPostmanCollectionData
         method: POST
-        description: Apidog Import Postman Collection Data
+        description: Import Postman Collection Data
         outputRawFormat: json
         outputParameters:
         - name: result
           type: object
           value: $.
         inputParameters:
+        - name: projectId
+          in: path
+          type: integer
+          required: true
+        - name: X-Apidog-Api-Version
+          in: header
+          type: string
+          required: true
+          default: '2024-03-28'
         - name: body
           in: body
           type: object
-          description: Request body (JSON).
+          description: Request body (JSON) with input (stringified collection) and options.
           required: true
     authentication:
       type: bearer
@@ -77,44 +110,46 @@ capability:
   - type: rest
     namespace: apidog-import-export-rest
     port: 8080
-    description: REST adapter for Apidog API — Import & Export. One Spectral-compliant resource per consumed operation, prefixed
-      with /v1.
+    description: REST adapter for Apidog API - Import And Export. One Spectral-compliant resource per consumed operation, prefixed with /v1.
     resources:
-    - path: /v1/v1/projects/{projectid}/export-openapi
-      name: v1-projects-projectid-export-openapi
-      description: REST surface for v1-projects-projectId-export-openapi.
+    - path: /v1/projects/{projectId}/export-openapi
+      name: v1-projects-projectId-export-openapi
+      description: REST surface for exporting an Apidog project as an OpenAPI document.
       operations:
       - method: POST
-        name: exportopenapidata
-        description: Apidog Export Data in OpenAPI/Swagger Format
-        call: apidog-import-export.exportopenapidata
+        name: exportOpenApiData
+        description: Export Data In OpenAPI Or Swagger Format
+        call: apidog-import-export.exportOpenApiData
         with:
+          projectId: rest.path.projectId
           body: rest.body
         outputParameters:
         - type: object
           mapping: $.
-    - path: /v1/v1/projects/{projectid}/import-openapi
-      name: v1-projects-projectid-import-openapi
-      description: REST surface for v1-projects-projectId-import-openapi.
+    - path: /v1/projects/{projectId}/import-openapi
+      name: v1-projects-projectId-import-openapi
+      description: REST surface for importing OpenAPI/Swagger into an Apidog project.
       operations:
       - method: POST
-        name: importopenapidata
-        description: Apidog Import OpenAPI/Swagger Data
-        call: apidog-import-export.importopenapidata
+        name: importOpenApiData
+        description: Import OpenAPI Or Swagger Data
+        call: apidog-import-export.importOpenApiData
         with:
+          projectId: rest.path.projectId
           body: rest.body
         outputParameters:
         - type: object
           mapping: $.
-    - path: /v1/v1/projects/{projectid}/import-postman
-      name: v1-projects-projectid-import-postman
-      description: REST surface for v1-projects-projectId-import-postman.
+    - path: /v1/projects/{projectId}/import-postman-collection
+      name: v1-projects-projectId-import-postman-collection
+      description: REST surface for importing a Postman Collection into an Apidog project.
       operations:
       - method: POST
-        name: importpostmancollectiondata
-        description: Apidog Import Postman Collection Data
-        call: apidog-import-export.importpostmancollectiondata
+        name: importPostmanCollectionData
+        description: Import Postman Collection Data
+        call: apidog-import-export.importPostmanCollectionData
         with:
+          projectId: rest.path.projectId
           body: rest.body
         outputParameters:
         - type: object
@@ -123,41 +158,43 @@ capability:
     namespace: apidog-import-export-mcp
     port: 9090
     transport: http
-    description: MCP adapter for Apidog API — Import & Export. One tool per consumed operation, routed inline through this
-      capability's consumes block.
+    description: MCP adapter for Apidog API - Import And Export. One tool per consumed operation; complements Apidog's own apidog-mcp-server which exposes API spec reads to AI coding assistants.
     tools:
-    - name: apidog-export-data-openapi-swagger
-      description: Apidog Export Data in OpenAPI/Swagger Format
+    - name: apidog-export-openapi
+      description: Export an Apidog project as an OpenAPI 2.0, 3.0, or 3.1 document.
       hints:
-        readOnly: false
+        readOnly: true
         destructive: false
-        idempotent: false
-      call: apidog-import-export.exportopenapidata
+        idempotent: true
+      call: apidog-import-export.exportOpenApiData
       with:
+        projectId: tools.projectId
         body: tools.body
       outputParameters:
       - type: object
         mapping: $.
-    - name: apidog-import-openapi-swagger-data
-      description: Apidog Import OpenAPI/Swagger Data
+    - name: apidog-import-openapi
+      description: Import an OpenAPI or Swagger document into an Apidog project.
       hints:
         readOnly: false
         destructive: false
         idempotent: false
-      call: apidog-import-export.importopenapidata
+      call: apidog-import-export.importOpenApiData
       with:
+        projectId: tools.projectId
         body: tools.body
       outputParameters:
       - type: object
         mapping: $.
-    - name: apidog-import-postman-collection-data
-      description: Apidog Import Postman Collection Data
+    - name: apidog-import-postman-collection
+      description: Import a Postman Collection v2 into an Apidog project.
       hints:
         readOnly: false
         destructive: false
         idempotent: false
-      call: apidog-import-export.importpostmancollectiondata
+      call: apidog-import-export.importPostmanCollectionData
       with:
+        projectId: tools.projectId
         body: tools.body
       outputParameters:
       - type: object
