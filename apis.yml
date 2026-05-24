@@ -184,6 +184,8 @@ common:
     description: IDEA plugin for JavaDoc-driven API definition generation.
   - name: Cursor And VS Code + Cline
     description: Through apidog-mcp-server, Apidog projects and OpenAPI files become directly accessible to MCP-compatible AI coding assistants.
+- type: LLMsTxt
+  url: https://docs.apidog.com/llms.txt
 maintainers:
 - FN: Kin Lane
   email: info@apievangelist.com
