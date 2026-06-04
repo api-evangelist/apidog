@@ -1,0 +1,126 @@
+arazzo: 1.0.1
+info:
+  title: Apidog Consolidate Sources Into One Project
+  summary: Import an OpenAPI spec and a Postman Collection into one project, then export the merged result.
+  description: >-
+    Combines two different source formats into a single Apidog project: an
+    OpenAPI/Swagger specification and a Postman Collection are both imported
+    into the same project, and the consolidated project is exported as one
+    OpenAPI document. Each step spells out its request inline — including the
+    required Apidog API version header and bearer authentication — so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apidogApi
+  url: ../openapi/apidog-apidog-openapi.yml
+  type: openapi
+workflows:
+- workflowId: consolidate-sources-into-project
+  summary: Merge an OpenAPI spec and a Postman Collection into a single project and export it.
+  description: >-
+    Imports the OpenAPI specification, then imports the Postman Collection into
+    the same project, then exports the merged project as one OpenAPI document.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - apiVersion
+    - projectId
+    - openapiInput
+    - postmanCollection
+    properties:
+      accessToken:
+        type: string
+        description: Apidog personal API access token used as the Bearer Token.
+      apiVersion:
+        type: string
+        description: The Apidog API version header value (e.g. 2024-03-28).
+      projectId:
+        type: integer
+        description: The project ID to consolidate both sources into.
+      openapiInput:
+        type: string
+        description: The OpenAPI/Swagger specification as a JSON or YAML string.
+      postmanCollection:
+        type: string
+        description: The Postman Collection v2 data as a stringified JSON string.
+  steps:
+  - stepId: importOpenApi
+    description: >-
+      Import the OpenAPI/Swagger specification into the project, auto-merging
+      endpoints that already exist.
+    operationId: importOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        input: $inputs.openapiInput
+        options:
+          endpointOverwriteBehavior: AUTO_MERGE
+          schemaOverwriteBehavior: AUTO_MERGE
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      openapiEndpointsCreated: $response.body#/data/endpoint/created
+  - stepId: importPostman
+    description: >-
+      Import the Postman Collection into the same project, auto-merging
+      endpoints that already exist.
+    operationId: importPostmanCollectionData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        input: $inputs.postmanCollection
+        options:
+          endpointOverwriteBehavior: AUTO_MERGE
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      postmanEndpointsCreated: $response.body#/data/endpoint/created
+  - stepId: exportMerged
+    description: >-
+      Export the consolidated project as a single OpenAPI 3.0 JSON document.
+    operationId: exportOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        scope: ALL
+        oasVersion: '3.0'
+        exportFormat: JSON
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      mergedDocument: $response.body#/data
+  outputs:
+    openapiEndpointsCreated: $steps.importOpenApi.outputs.openapiEndpointsCreated
+    postmanEndpointsCreated: $steps.importPostman.outputs.postmanEndpointsCreated
+    mergedDocument: $steps.exportMerged.outputs.mergedDocument

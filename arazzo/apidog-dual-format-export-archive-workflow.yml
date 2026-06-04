@@ -1,0 +1,98 @@
+arazzo: 1.0.1
+info:
+  title: Apidog Dual-Format Export Archive
+  summary: Export the same project once as JSON and once as YAML to produce a two-format archive.
+  description: >-
+    Produces a portable archive of an Apidog project in both common OpenAPI
+    serializations. The project is exported first as a JSON document and then
+    as a YAML document, giving downstream consumers a copy in whichever format
+    they prefer. Each step spells out its request inline — including the
+    required Apidog API version header and bearer authentication — so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apidogApi
+  url: ../openapi/apidog-apidog-openapi.yml
+  type: openapi
+workflows:
+- workflowId: dual-format-export-archive
+  summary: Export a project as both JSON and YAML OpenAPI documents.
+  description: >-
+    Exports the project as a JSON OpenAPI document, then exports the same
+    project as a YAML OpenAPI document, returning both for archival.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - apiVersion
+    - projectId
+    properties:
+      accessToken:
+        type: string
+        description: Apidog personal API access token used as the Bearer Token.
+      apiVersion:
+        type: string
+        description: The Apidog API version header value (e.g. 2024-03-28).
+      projectId:
+        type: integer
+        description: The project ID to export in both formats.
+      oasVersion:
+        type: string
+        description: Target OpenAPI version for both exports.
+        enum:
+        - '2.0'
+        - '3.0'
+        - '3.1'
+        default: '3.0'
+  steps:
+  - stepId: exportJson
+    description: >-
+      Export the project as a JSON OpenAPI document.
+    operationId: exportOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        scope: ALL
+        oasVersion: $inputs.oasVersion
+        exportFormat: JSON
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      jsonDocument: $response.body#/data
+  - stepId: exportYaml
+    description: >-
+      Export the same project as a YAML OpenAPI document.
+    operationId: exportOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        scope: ALL
+        oasVersion: $inputs.oasVersion
+        exportFormat: YAML
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      yamlDocument: $response.body#/data
+  outputs:
+    jsonDocument: $steps.exportJson.outputs.jsonDocument
+    yamlDocument: $steps.exportYaml.outputs.yamlDocument

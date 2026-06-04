@@ -1,0 +1,109 @@
+arazzo: 1.0.1
+info:
+  title: Apidog Sync Module Across Projects
+  summary: Export a specific module from one project and import it into a module of another project.
+  description: >-
+    Synchronizes a single module's API specification from one Apidog project
+    into a module of a different project. The source module is exported on its
+    own and the resulting document is imported into the target module, keeping
+    modular API surfaces aligned across projects. Each step spells out its
+    request inline — including the required Apidog API version header and bearer
+    authentication — so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apidogApi
+  url: ../openapi/apidog-apidog-openapi.yml
+  type: openapi
+workflows:
+- workflowId: sync-module-across-projects
+  summary: Copy one module's specification from a source project to a module of a target project.
+  description: >-
+    Exports the specified module from the source project and imports it into the
+    specified module of the target project.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - apiVersion
+    - sourceProjectId
+    - sourceModuleId
+    - targetProjectId
+    - targetModuleId
+    properties:
+      accessToken:
+        type: string
+        description: Apidog personal API access token used as the Bearer Token.
+      apiVersion:
+        type: string
+        description: The Apidog API version header value (e.g. 2024-03-28).
+      sourceProjectId:
+        type: integer
+        description: The project ID to export the module from.
+      sourceModuleId:
+        type: integer
+        description: The module ID within the source project to export.
+      targetProjectId:
+        type: integer
+        description: The project ID to import the module into.
+      targetModuleId:
+        type: integer
+        description: The module ID within the target project to import into.
+  steps:
+  - stepId: exportModule
+    description: >-
+      Export the specified module from the source project as an OpenAPI 3.0 JSON
+      document.
+    operationId: exportOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.sourceProjectId
+    requestBody:
+      contentType: application/json
+      payload:
+        scope: ALL
+        oasVersion: '3.0'
+        exportFormat: JSON
+        moduleId: $inputs.sourceModuleId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      moduleDocument: $response.body#/data
+  - stepId: importModule
+    description: >-
+      Import the exported module document into the target module, auto-merging
+      endpoints that already exist there.
+    operationId: importOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.targetProjectId
+    requestBody:
+      contentType: application/json
+      payload:
+        input: $steps.exportModule.outputs.moduleDocument
+        options:
+          endpointOverwriteBehavior: AUTO_MERGE
+          schemaOverwriteBehavior: AUTO_MERGE
+          moduleId: $inputs.targetModuleId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      success: $response.body#/success
+      endpointsCreated: $response.body#/data/endpoint/created
+  outputs:
+    success: $steps.importModule.outputs.success
+    endpointsCreated: $steps.importModule.outputs.endpointsCreated

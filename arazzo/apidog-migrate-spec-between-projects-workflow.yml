@@ -1,0 +1,100 @@
+arazzo: 1.0.1
+info:
+  title: Apidog Migrate Spec Between Projects
+  summary: Export the API specification from one Apidog project and import it into another.
+  description: >-
+    Moves an API specification from a source Apidog project into a target
+    project. The workflow exports the source project as a fully-formed OpenAPI
+    document, then feeds that document straight back into the import endpoint of
+    the target project. Each step spells out its request inline — including the
+    required Apidog API version header and bearer authentication — so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apidogApi
+  url: ../openapi/apidog-apidog-openapi.yml
+  type: openapi
+workflows:
+- workflowId: migrate-spec-between-projects
+  summary: Copy an API specification from a source Apidog project to a target project.
+  description: >-
+    Exports the source project as an OpenAPI document and imports the resulting
+    document into the target project, returning the import resource counters.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - apiVersion
+    - sourceProjectId
+    - targetProjectId
+    properties:
+      accessToken:
+        type: string
+        description: Apidog personal API access token used as the Bearer Token.
+      apiVersion:
+        type: string
+        description: The Apidog API version header value (e.g. 2024-03-28).
+      sourceProjectId:
+        type: integer
+        description: The project ID to export the specification from.
+      targetProjectId:
+        type: integer
+        description: The project ID to import the specification into.
+  steps:
+  - stepId: exportSource
+    description: >-
+      Export the full API specification from the source project as an OpenAPI
+      3.0 JSON document.
+    operationId: exportOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.sourceProjectId
+    requestBody:
+      contentType: application/json
+      payload:
+        scope: ALL
+        oasVersion: '3.0'
+        exportFormat: JSON
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      exportedDocument: $response.body#/data
+  - stepId: importIntoTarget
+    description: >-
+      Import the exported OpenAPI document into the target project, auto-merging
+      any endpoints that already exist.
+    operationId: importOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.targetProjectId
+    requestBody:
+      contentType: application/json
+      payload:
+        input: $steps.exportSource.outputs.exportedDocument
+        options:
+          endpointOverwriteBehavior: AUTO_MERGE
+          schemaOverwriteBehavior: AUTO_MERGE
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      success: $response.body#/success
+      endpointsCreated: $response.body#/data/endpoint/created
+      schemasCreated: $response.body#/data/schema/created
+  outputs:
+    success: $steps.importIntoTarget.outputs.success
+    endpointsCreated: $steps.importIntoTarget.outputs.endpointsCreated
+    schemasCreated: $steps.importIntoTarget.outputs.schemasCreated

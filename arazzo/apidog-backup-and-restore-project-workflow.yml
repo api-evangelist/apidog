@@ -1,0 +1,118 @@
+arazzo: 1.0.1
+info:
+  title: Apidog Backup And Restore Project
+  summary: Export a project as a backup document, then branch to restore it into a recovery project only when the export succeeds.
+  description: >-
+    Captures a point-in-time backup of an Apidog project by exporting its API
+    specification, then conditionally restores that backup into a recovery
+    project. The workflow branches on the export result: when the export
+    reports success it imports the captured document into the recovery project,
+    and when it does not it ends without writing anything. Each step spells out
+    its request inline — including the required Apidog API version header and
+    bearer authentication — so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apidogApi
+  url: ../openapi/apidog-apidog-openapi.yml
+  type: openapi
+workflows:
+- workflowId: backup-and-restore-project
+  summary: Export a project as a backup and conditionally restore it into a recovery project.
+  description: >-
+    Exports the source project as an OpenAPI document, branches on the export
+    success flag, and imports the backup into the recovery project when the
+    backup succeeded.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - apiVersion
+    - sourceProjectId
+    - recoveryProjectId
+    properties:
+      accessToken:
+        type: string
+        description: Apidog personal API access token used as the Bearer Token.
+      apiVersion:
+        type: string
+        description: The Apidog API version header value (e.g. 2024-03-28).
+      sourceProjectId:
+        type: integer
+        description: The project ID to back up.
+      recoveryProjectId:
+        type: integer
+        description: The project ID to restore the backup into.
+  steps:
+  - stepId: backupExport
+    description: >-
+      Export the source project as a full OpenAPI 3.1 JSON document to serve as
+      the backup payload.
+    operationId: exportOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.sourceProjectId
+    requestBody:
+      contentType: application/json
+      payload:
+        scope: ALL
+        oasVersion: '3.1'
+        exportFormat: JSON
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      backupSuccess: $response.body#/success
+      backupDocument: $response.body#/data
+    onSuccess:
+    - name: backupOk
+      type: goto
+      stepId: restoreImport
+      criteria:
+      - context: $response.body
+        condition: $.success == true
+        type: jsonpath
+    - name: backupFailed
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.success == false
+        type: jsonpath
+  - stepId: restoreImport
+    description: >-
+      Import the backup document into the recovery project, overwriting existing
+      endpoints so the recovery project matches the backup exactly.
+    operationId: importOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.recoveryProjectId
+    requestBody:
+      contentType: application/json
+      payload:
+        input: $steps.backupExport.outputs.backupDocument
+        options:
+          endpointOverwriteBehavior: OVERWRITE_EXISTING
+          schemaOverwriteBehavior: OVERWRITE_EXISTING
+          deleteUnmatchedResources: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      restoreSuccess: $response.body#/success
+      endpointsCreated: $response.body#/data/endpoint/created
+      endpointsUpdated: $response.body#/data/endpoint/updated
+  outputs:
+    backupSuccess: $steps.backupExport.outputs.backupSuccess
+    restoreSuccess: $steps.restoreImport.outputs.restoreSuccess

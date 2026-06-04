@@ -1,0 +1,99 @@
+arazzo: 1.0.1
+info:
+  title: Apidog Import Spec From URL And Verify
+  summary: Import an OpenAPI spec from a remote URL into a project, then export it back to verify.
+  description: >-
+    Pulls an OpenAPI or Swagger specification from a remote URL into an Apidog
+    project, then immediately exports the project to confirm the specification
+    landed and round-trips cleanly. Each step spells out its request inline —
+    including the required Apidog API version header and bearer authentication —
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apidogApi
+  url: ../openapi/apidog-apidog-openapi.yml
+  type: openapi
+workflows:
+- workflowId: import-from-url-and-verify
+  summary: Import a spec from a URL and verify by exporting it back.
+  description: >-
+    Imports a remote OpenAPI/Swagger document by URL into the project, then
+    exports the project as an OpenAPI document to confirm the import succeeded.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - apiVersion
+    - projectId
+    - specUrl
+    properties:
+      accessToken:
+        type: string
+        description: Apidog personal API access token used as the Bearer Token.
+      apiVersion:
+        type: string
+        description: The Apidog API version header value (e.g. 2024-03-28).
+      projectId:
+        type: integer
+        description: The project ID to import into and export from.
+      specUrl:
+        type: string
+        description: URL pointing to the OpenAPI/Swagger specification file.
+  steps:
+  - stepId: importFromUrl
+    description: >-
+      Import the specification fetched from the supplied URL into the project,
+      auto-merging endpoints that already exist.
+    operationId: importOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        input:
+          url: $inputs.specUrl
+        options:
+          endpointOverwriteBehavior: AUTO_MERGE
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      importSuccess: $response.body#/success
+      endpointsCreated: $response.body#/data/endpoint/created
+  - stepId: exportToVerify
+    description: >-
+      Export the project as an OpenAPI 3.0 JSON document to verify the imported
+      specification is present.
+    operationId: exportOpenApiData
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.accessToken"
+    - name: X-Apidog-Api-Version
+      in: header
+      value: $inputs.apiVersion
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    requestBody:
+      contentType: application/json
+      payload:
+        scope: ALL
+        oasVersion: '3.0'
+        exportFormat: JSON
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      exportSuccess: $response.body#/success
+      verifiedDocument: $response.body#/data
+  outputs:
+    importSuccess: $steps.importFromUrl.outputs.importSuccess
+    verifiedDocument: $steps.exportToVerify.outputs.verifiedDocument
