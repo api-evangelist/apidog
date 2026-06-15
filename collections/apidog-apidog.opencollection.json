@@ -1,0 +1,117 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Apidog API",
+    "version": "Wed Mar 27 2024 20:00:00 GMT-0400 (Eastern Daylight Time)"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Import And Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Import OpenAPI Or Swagger Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.apidog.com/v1/projects/:projectId/import-openapi",
+            "headers": [
+              {
+                "name": "X-Apidog-Api-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Apidog project."
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Locale for response messages, e.g. `en-US`."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import API specification data in OpenAPI 3 or Swagger 2 format into the specified Apidog project. The specification can be provided as a JSON or YAML string, or fetched from a URL. Advanced options control target folder, branch, module, overwrite behavior, and whether unmatched resources are deleted."
+        },
+        {
+          "info": {
+            "name": "Export Data In OpenAPI Or Swagger Format",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.apidog.com/v1/projects/:projectId/export-openapi",
+            "headers": [
+              {
+                "name": "X-Apidog-Api-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Apidog project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Export the API specification data from the specified Apidog project in OpenAPI 2.0, 3.0, or 3.1 format. Output is delivered as a fully-formed OpenAPI document containing info, paths, components, tags, and servers."
+        },
+        {
+          "info": {
+            "name": "Import Postman Collection Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.apidog.com/v1/projects/:projectId/import-postman-collection",
+            "headers": [
+              {
+                "name": "X-Apidog-Api-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Apidog project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import API data from a Postman Collection (v2 format) into the specified Apidog project. The collection should be provided as a stringified JSON string exported from Postman."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
