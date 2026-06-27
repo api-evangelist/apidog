@@ -76,48 +76,43 @@ apis:
   - url: vocabulary/apidog-vocabulary.yaml
     type: Vocabulary
   - url: examples/apidog-import-openapi-example.json
-    type: Example
+    type: Examples
   - url: examples/apidog-export-openapi-example.json
-    type: Example
+    type: Examples
   - url: examples/apidog-import-postman-collection-example.json
-    type: Example
+    type: Examples
   - url: graphql/apidog-graphql.md
     type: GraphQL
 common:
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/apidog/overview
-- type: ArazzoWorkflows
-  url: arazzo/
-  workflows:
-  - url: arazzo/apidog-backup-and-restore-project-workflow.yml
-    name: Apidog Backup And Restore Project
-    summary: >-
-      Export a project as a backup document, then branch to restore it into a recovery project only when the export
-      succeeds.
-  - url: arazzo/apidog-consolidate-sources-into-project-workflow.yml
-    name: Apidog Consolidate Sources Into One Project
-    summary: Import an OpenAPI spec and a Postman Collection into one project, then export the merged result.
-  - url: arazzo/apidog-convert-postman-to-openapi-workflow.yml
-    name: Apidog Convert Postman Collection To OpenAPI
-    summary: Import a Postman Collection into Apidog and export it back out as OpenAPI.
-  - url: arazzo/apidog-downgrade-oas-version-workflow.yml
-    name: Apidog Downgrade OpenAPI Version
-    summary: Import a modern OpenAPI spec into a project and re-export it at an older OpenAPI version.
-  - url: arazzo/apidog-dual-format-export-archive-workflow.yml
-    name: Apidog Dual-Format Export Archive
-    summary: Export the same project once as JSON and once as YAML to produce a two-format archive.
-  - url: arazzo/apidog-import-from-url-and-verify-workflow.yml
-    name: Apidog Import Spec From URL And Verify
-    summary: Import an OpenAPI spec from a remote URL into a project, then export it back to verify.
-  - url: arazzo/apidog-migrate-spec-between-projects-workflow.yml
-    name: Apidog Migrate Spec Between Projects
-    summary: Export the API specification from one Apidog project and import it into another.
-  - url: arazzo/apidog-promote-spec-between-branches-workflow.yml
-    name: Apidog Promote Spec Between Branches
-    summary: Export a spec from one sprint branch and import it into another branch of the same project.
-  - url: arazzo/apidog-sync-module-across-projects-workflow.yml
-    name: Apidog Sync Module Across Projects
-    summary: Export a specific module from one project and import it into a module of another project.
+- type: Arazzo
+  url: arazzo/apidog-backup-and-restore-project-workflow.yml
+  name: Apidog Backup And Restore Project
+- type: Arazzo
+  url: arazzo/apidog-consolidate-sources-into-project-workflow.yml
+  name: Apidog Consolidate Sources Into One Project
+- type: Arazzo
+  url: arazzo/apidog-convert-postman-to-openapi-workflow.yml
+  name: Apidog Convert Postman Collection To OpenAPI
+- type: Arazzo
+  url: arazzo/apidog-downgrade-oas-version-workflow.yml
+  name: Apidog Downgrade OpenAPI Version
+- type: Arazzo
+  url: arazzo/apidog-dual-format-export-archive-workflow.yml
+  name: Apidog Dual-Format Export Archive
+- type: Arazzo
+  url: arazzo/apidog-import-from-url-and-verify-workflow.yml
+  name: Apidog Import Spec From URL And Verify
+- type: Arazzo
+  url: arazzo/apidog-migrate-spec-between-projects-workflow.yml
+  name: Apidog Migrate Spec Between Projects
+- type: Arazzo
+  url: arazzo/apidog-promote-spec-between-branches-workflow.yml
+  name: Apidog Promote Spec Between Branches
+- type: Arazzo
+  url: arazzo/apidog-sync-module-across-projects-workflow.yml
+  name: Apidog Sync Module Across Projects
 - type: LinkedIn
   url: https://www.linkedin.com/company/apidog
 - url: https://apidog.com/
@@ -145,7 +140,7 @@ common:
 - url: https://github.com/Apidog
   type: GitHubOrganization
 - url: https://github.com/Apidog/roadmap
-  type: Roadmap
+  type: RoadMap
 - url: https://docs.apidog.com/installing-and-running-apidog-cli-605135m0
   type: CLI
 - url: https://www.npmjs.com/package/apidog-cli
@@ -156,7 +151,7 @@ common:
   type: MCPServer
 - url: https://docs.apidog.com/mcp-client-1930835m0
   type: MCPClient
-- type: SDK
+- type: SDKs
   url: https://github.com/Apidog/apidog-locales
 - type: Features
   data:
@@ -250,7 +245,7 @@ common:
     description: >-
       Through apidog-mcp-server, Apidog projects and OpenAPI files become directly accessible to MCP-compatible AI
       coding assistants.
-- type: LLMsTxt
+- type: LlmsText
   url: https://docs.apidog.com/llms.txt
 maintainers:
 - FN: Kin Lane
