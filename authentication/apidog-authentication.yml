@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/apidog-apidog-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: Apidog API uses Bearer Token authorization. Include your personal API access
+    token in the Authorization header as "Bearer {token}". Tokens are generated under Avatar
+    -> Account Settings -> API Access Token.
+  sources:
+  - openapi/apidog-apidog-openapi.yml

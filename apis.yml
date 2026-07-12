@@ -84,6 +84,12 @@ apis:
   - url: graphql/apidog-graphql.md
     type: GraphQL
 common:
+- type: TrustCenter
+  url: security/apidog-trust-center.yml
+- type: DomainSecurity
+  url: security/apidog-domain-security.yml
+- type: Authentication
+  url: authentication/apidog-authentication.yml
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/apidog/overview
 - type: Arazzo
