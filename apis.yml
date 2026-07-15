@@ -84,6 +84,8 @@ apis:
   - url: graphql/apidog-graphql.md
     type: GraphQL
 common:
+- type: AgenticAccess
+  url: agentic-access/apidog-agentic-access.yml
 - type: TrustCenter
   url: security/apidog-trust-center.yml
 - type: DomainSecurity
