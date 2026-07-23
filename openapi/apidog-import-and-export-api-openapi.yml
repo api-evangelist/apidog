@@ -1,21 +1,12 @@
 openapi: 3.1.0
 info:
-  title: Apidog API
-  description: >-
-    Apidog provides a public REST API that lets developers programmatically
-    interact with Apidog projects for importing and exporting API specifications.
-    All API URLs begin with the base URL https://api.apidog.com. The API is
-    versioned via the `X-Apidog-Api-Version` request header (current version:
-    `2024-03-28`). Authentication uses a personal API access token passed as a
-    Bearer Token in the `Authorization` header.
+  title: Apidog Import And Export API
+  description: 'Apidog provides a public REST API that lets developers programmatically interact with Apidog projects for importing and exporting API specifications. All API URLs begin with the base URL https://api.apidog.com. The API is versioned via the `X-Apidog-Api-Version` request header (current version: `2024-03-28`). Authentication uses a personal API access token passed as a Bearer Token in the `Authorization` header.'
   version: 2024-03-28
   contact:
     name: Apidog
     url: https://apidog.com/
   termsOfService: https://legal.apidog.com/
-externalDocs:
-  description: Apidog OpenAPI Reference
-  url: https://openapi.apidog.io/
 servers:
 - url: https://api.apidog.com
   description: Apidog Production API
@@ -29,12 +20,7 @@ paths:
     post:
       operationId: importOpenApiData
       summary: Import OpenAPI Or Swagger Data
-      description: >-
-        Import API specification data in OpenAPI 3 or Swagger 2 format into the
-        specified Apidog project. The specification can be provided as a JSON
-        or YAML string, or fetched from a URL. Advanced options control target
-        folder, branch, module, overwrite behavior, and whether unmatched
-        resources are deleted.
+      description: Import API specification data in OpenAPI 3 or Swagger 2 format into the specified Apidog project. The specification can be provided as a JSON or YAML string, or fetched from a URL. Advanced options control target folder, branch, module, overwrite behavior, and whether unmatched resources are deleted.
       tags:
       - Import And Export
       parameters:
@@ -152,10 +138,7 @@ paths:
     post:
       operationId: exportOpenApiData
       summary: Export Data In OpenAPI Or Swagger Format
-      description: >-
-        Export the API specification data from the specified Apidog project in
-        OpenAPI 2.0, 3.0, or 3.1 format. Output is delivered as a fully-formed
-        OpenAPI document containing info, paths, components, tags, and servers.
+      description: Export the API specification data from the specified Apidog project in OpenAPI 2.0, 3.0, or 3.1 format. Output is delivered as a fully-formed OpenAPI document containing info, paths, components, tags, and servers.
       tags:
       - Import And Export
       parameters:
@@ -244,7 +227,7 @@ paths:
                   value:
                     success: true
                     data:
-                      openapi: '3.0.0'
+                      openapi: 3.0.0
                       info:
                         title: My API
                         version: 1.0.0
@@ -261,10 +244,7 @@ paths:
     post:
       operationId: importPostmanCollectionData
       summary: Import Postman Collection Data
-      description: >-
-        Import API data from a Postman Collection (v2 format) into the specified
-        Apidog project. The collection should be provided as a stringified JSON
-        string exported from Postman.
+      description: Import API data from a Postman Collection (v2 format) into the specified Apidog project. The collection should be provided as a stringified JSON string exported from Postman.
       tags:
       - Import And Export
       parameters:
@@ -352,41 +332,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: >-
-        Apidog API uses Bearer Token authorization. Include your personal API
-        access token in the Authorization header as "Bearer {token}". Tokens
-        are generated under Avatar -> Account Settings -> API Access Token.
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The unique identifier of the Apidog project.
-      schema:
-        type: integer
-    apidogApiVersion:
-      name: X-Apidog-Api-Version
-      in: header
-      required: true
-      description: >-
-        The Apidog API version. Required for all requests. Current supported
-        version is `2024-03-28`. Apidog supports previous versions for at
-        least three months after a newer version launches.
-      schema:
-        type: string
-        example: '2024-03-28'
-    locale:
-      name: locale
-      in: query
-      required: false
-      description: Locale for response messages, e.g. `en-US`.
-      schema:
-        type: string
-        example: en-US
   schemas:
     ResourceCounters:
       type: object
@@ -404,6 +349,22 @@ components:
         ignored:
           type: integer
           description: Number of resources ignored (e.g. due to keep-existing policy).
+    Error:
+      type: object
+      description: Standard error response.
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code.
+            message:
+              type: string
+              description: Human-readable error message.
     ImportError:
       type: object
       properties:
@@ -449,26 +410,9 @@ components:
           oneOf:
           - type: string
           - type: object
-    Error:
-      type: object
-      description: Standard error response.
-      properties:
-        success:
-          type: boolean
-          example: false
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code.
-            message:
-              type: string
-              description: Human-readable error message.
   responses:
     Unauthorized:
-      description: >-
-        Authentication failed. The Bearer Token is missing, invalid, or expired.
+      description: Authentication failed. The Bearer Token is missing, invalid, or expired.
       content:
         application/json:
           schema:
@@ -485,3 +429,35 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    locale:
+      name: locale
+      in: query
+      required: false
+      description: Locale for response messages, e.g. `en-US`.
+      schema:
+        type: string
+        example: en-US
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The unique identifier of the Apidog project.
+      schema:
+        type: integer
+    apidogApiVersion:
+      name: X-Apidog-Api-Version
+      in: header
+      required: true
+      description: The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.
+      schema:
+        type: string
+        example: '2024-03-28'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Apidog API uses Bearer Token authorization. Include your personal API access token in the Authorization header as "Bearer {token}". Tokens are generated under Avatar -> Account Settings -> API Access Token.
+externalDocs:
+  description: Apidog OpenAPI Reference
+  url: https://openapi.apidog.io/
