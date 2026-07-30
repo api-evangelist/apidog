@@ -20,69 +20,75 @@ tags:
 - Mocking
 - Platform
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/apidog.png
 access: 3rd-Party
 created: '2025-01-08'
 modified: '2026-05-22'
 position: Consumer
 specificationVersion: '0.19'
 apis:
-- aid: apidog:apidog
-  name: Apidog
+- aid: apidog:apidog-import-and-export-api
+  name: Apidog Import And Export API
   description: >-
-    Apidog's public REST API at https://api.apidog.com lets developers programmatically import API specifications into
-    Apidog projects (OpenAPI 3, Swagger 2, Postman Collection v2) and export Apidog projects back out as OpenAPI 2.0,
-    3.0, or 3.1. The API is versioned via the X-Apidog-Api-Version header (current: 2024-03-28) and authenticated with
-    a personal API access token sent as a Bearer Token.
+    Import and export API specification data in OpenAPI, Swagger, and Postman Collection formats.
   humanURL: https://apidog.com/
   baseURL: https://api.apidog.com
   tags:
-  - API Design
-  - API Lifecycle
-  - Documentation
-  - Import
-  - Export
+  - Import And Export
   properties:
-  - url: https://openapi.apidog.io/
-    type: Documentation
-  - url: https://docs.apidog.com/overview-644404m0
-    type: GettingStarted
-  - url: https://docs.apidog.com/api-access-tokens
-    type: Authentication
-  - url: openapi/apidog-apidog-openapi.yml
-    type: OpenAPI
-  - url: https://legal.apidog.com/
-    type: TermsOfService
-  - url: https://apidog.com/pricing/
-    type: Pricing
-  - url: plans/apidog-plans-pricing.yml
-    type: Plans
-  - url: rate-limits/apidog-rate-limits.yml
-    type: RateLimits
-  - url: finops/apidog-finops.yml
-    type: FinOps
-  - url: rules/apidog-rules.yml
-    type: SpectralRules
-  - url: json-schema/apidog-project-schema.json
-    type: JSONSchema
-  - url: json-schema/apidog-import-result-schema.json
-    type: JSONSchema
-  - url: json-schema/apidog-export-result-schema.json
-    type: JSONSchema
-  - url: json-schema/apidog-error-schema.json
-    type: JSONSchema
-  - url: json-ld/apidog-context.jsonld
-    type: JSONLD
-  - url: vocabulary/apidog-vocabulary.yaml
-    type: Vocabulary
-  - url: examples/apidog-import-openapi-example.json
-    type: Examples
-  - url: examples/apidog-export-openapi-example.json
-    type: Examples
-  - url: examples/apidog-import-postman-collection-example.json
-    type: Examples
-  - url: graphql/apidog-graphql.md
-    type: GraphQL
+  - type: OpenAPI
+    url: openapi/apidog-import-and-export-api-openapi.yml
+  - type: Documentation
+    url: https://openapi.apidog.io/
+  - type: GettingStarted
+    url: https://docs.apidog.com/overview-644404m0
+  - type: Authentication
+    url: https://docs.apidog.com/api-access-tokens
+  - type: TermsOfService
+    url: https://legal.apidog.com/
+  - type: Pricing
+    url: https://apidog.com/pricing/
+  - type: Plans
+    url: plans/apidog-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/apidog-rate-limits.yml
+  - type: FinOps
+    url: finops/apidog-finops.yml
+  - type: SpectralRules
+    url: rules/apidog-rules.yml
+  - type: JSONSchema
+    url: json-schema/apidog-project-schema.json
+  - type: JSONSchema
+    url: json-schema/apidog-import-result-schema.json
+  - type: JSONSchema
+    url: json-schema/apidog-export-result-schema.json
+  - type: JSONSchema
+    url: json-schema/apidog-error-schema.json
+  - type: JSONLD
+    url: json-ld/apidog-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/apidog-vocabulary.yaml
+  - type: Examples
+    url: examples/apidog-import-openapi-example.json
+  - type: Examples
+    url: examples/apidog-export-openapi-example.json
+  - type: Examples
+    url: examples/apidog-import-postman-collection-example.json
+  - type: GraphQL
+    url: graphql/apidog-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/apidog-agentic-access.yml
