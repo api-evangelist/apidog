@@ -1,0 +1,14 @@
+{
+  "provider": "apidog",
+  "sources": [
+    "apidog-import-and-export-api-openapi.yml"
+  ],
+  "outputs": [
+    "apidog-import-and-export-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
