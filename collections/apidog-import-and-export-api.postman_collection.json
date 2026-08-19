@@ -1,0 +1,943 @@
+{
+  "item": [
+    {
+      "id": "bb7ab412-0dca-43ec-b300-b334a63fb022",
+      "name": "Import And Export",
+      "description": {
+        "content": "Import and export API specification data in OpenAPI, Swagger, and Postman Collection formats.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "63b89545-e261-4887-a686-097cb782f736",
+          "name": "Import OpenAPI Or Swagger Data",
+          "request": {
+            "name": "Import OpenAPI Or Swagger Data",
+            "description": {
+              "content": "Import API specification data in OpenAPI 3 or Swagger 2 format into the specified Apidog project. The specification can be provided as a JSON or YAML string, or fetched from a URL. Advanced options control target folder, branch, module, overwrite behavior, and whether unmatched resources are deleted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "import-openapi"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "<string>",
+                  "description": "Locale for response messages, e.g. `en-US`."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "projectId",
+                  "description": "(Required) The unique identifier of the Apidog project."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                "key": "X-Apidog-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"<string>\",\n  \"options\": {\n    \"targetEndpointFolderId\": \"<integer>\",\n    \"targetSchemaFolderId\": \"<integer>\",\n    \"endpointOverwriteBehavior\": \"<string>\",\n    \"schemaOverwriteBehavior\": \"<string>\",\n    \"deleteUnmatchedResources\": \"<boolean>\",\n    \"targetBranchId\": \"<integer>\",\n    \"moduleId\": \"<integer>\",\n    \"importServersAsEnvironments\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "782a1efb-d5b7-49fb-a4e1-8673f7398f4f",
+              "name": "Import completed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "import-openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"openapi: 3.0.0\\ninfo:\\n  title: Example API\\n  version: 1.0.0\\npaths: {}\",\n  \"options\": {\n    \"endpointOverwriteBehavior\": \"AUTO_MERGE\",\n    \"importServersAsEnvironments\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"endpoint\": {\n      \"created\": 5,\n      \"updated\": 0,\n      \"failed\": 0,\n      \"ignored\": 0\n    },\n    \"schema\": {\n      \"created\": 3,\n      \"updated\": 0,\n      \"failed\": 0,\n      \"ignored\": 0\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3bb854f-68c9-4a9c-a9fb-d35e4d7104a8",
+              "name": "Authentication failed. The Bearer Token is missing, invalid, or expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "import-openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"openapi: 3.0.0\\ninfo:\\n  title: Example API\\n  version: 1.0.0\\npaths: {}\",\n  \"options\": {\n    \"endpointOverwriteBehavior\": \"AUTO_MERGE\",\n    \"importServersAsEnvironments\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20e69e09-b049-403c-ae89-e3bd0e549972",
+              "name": "The specified project was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "import-openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"openapi: 3.0.0\\ninfo:\\n  title: Example API\\n  version: 1.0.0\\npaths: {}\",\n  \"options\": {\n    \"endpointOverwriteBehavior\": \"AUTO_MERGE\",\n    \"importServersAsEnvironments\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97a22a6e-92e9-45b5-becd-34a781f4db5f",
+              "name": "The API version header is missing or unsupported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "import-openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"openapi: 3.0.0\\ninfo:\\n  title: Example API\\n  version: 1.0.0\\npaths: {}\",\n  \"options\": {\n    \"endpointOverwriteBehavior\": \"AUTO_MERGE\",\n    \"importServersAsEnvironments\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6d200177-8d0c-44a7-ad33-5ce67aef3adc",
+          "name": "Export Data In OpenAPI Or Swagger Format",
+          "request": {
+            "name": "Export Data In OpenAPI Or Swagger Format",
+            "description": {
+              "content": "Export the API specification data from the specified Apidog project in OpenAPI 2.0, 3.0, or 3.1 format. Output is delivered as a fully-formed OpenAPI document containing info, paths, components, tags, and servers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "export-openapi"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "projectId",
+                  "description": "(Required) The unique identifier of the Apidog project."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                "key": "X-Apidog-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scope\": \"ALL\",\n  \"oasVersion\": \"3.0\",\n  \"exportFormat\": \"JSON\",\n  \"environmentIds\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"branchId\": \"<integer>\",\n  \"moduleId\": \"<integer>\",\n  \"endpointIds\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"options\": {\n    \"includeApidogExtensionProperties\": \"<boolean>\",\n    \"includeFolderNamesAsTags\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a3b433a2-d71a-4748-8a82-8fb17f316d83",
+              "name": "Export completed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "export-openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"scope\": \"ALL\",\n  \"oasVersion\": \"3.0\",\n  \"exportFormat\": \"JSON\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"openapi\": \"3.0.0\",\n    \"info\": {\n      \"title\": \"My API\",\n      \"version\": \"1.0.0\"\n    },\n    \"paths\": {},\n    \"components\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "574a1354-6de7-472e-98c6-1490f03b5353",
+              "name": "Authentication failed. The Bearer Token is missing, invalid, or expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "export-openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"scope\": \"ALL\",\n  \"oasVersion\": \"3.0\",\n  \"exportFormat\": \"JSON\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7abbd04-2b9b-4a36-a2a8-a3c55650f1f8",
+              "name": "The specified project was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "export-openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"scope\": \"ALL\",\n  \"oasVersion\": \"3.0\",\n  \"exportFormat\": \"JSON\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6f8213e7-d3cc-4980-b3fe-bb9799abf1ad",
+          "name": "Import Postman Collection Data",
+          "request": {
+            "name": "Import Postman Collection Data",
+            "description": {
+              "content": "Import API data from a Postman Collection (v2 format) into the specified Apidog project. The collection should be provided as a stringified JSON string exported from Postman.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "import-postman-collection"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "projectId",
+                  "description": "(Required) The unique identifier of the Apidog project."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                "key": "X-Apidog-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"<string>\",\n  \"options\": {\n    \"targetEndpointFolderId\": \"<integer>\",\n    \"endpointOverwriteBehavior\": \"<string>\",\n    \"endpointCaseOverwriteBehavior\": \"<string>\",\n    \"updateFolderOfChangedEndpoint\": \"<boolean>\",\n    \"targetBranchId\": \"<integer>\",\n    \"moduleId\": \"<integer>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "97213a54-a19e-46c9-a6cf-ee5b87a2279f",
+              "name": "Import completed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "import-postman-collection"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"{\\\"info\\\":{\\\"name\\\":\\\"Example Collection\\\",\\\"schema\\\":\\\"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\\\"},\\\"item\\\":[]}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"endpoint\": {\n      \"created\": 5,\n      \"updated\": 0,\n      \"failed\": 0,\n      \"ignored\": 0\n    },\n    \"endpointFolder\": {\n      \"created\": 2,\n      \"updated\": 0,\n      \"failed\": 0,\n      \"ignored\": 0\n    },\n    \"endpointCase\": {\n      \"created\": 4,\n      \"updated\": 0,\n      \"failed\": 0,\n      \"ignored\": 0\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "044eed20-4df9-4af6-a7af-82aa83782eb1",
+              "name": "Authentication failed. The Bearer Token is missing, invalid, or expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "import-postman-collection"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"{\\\"info\\\":{\\\"name\\\":\\\"Example Collection\\\",\\\"schema\\\":\\\"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\\\"},\\\"item\\\":[]}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ca7bc4c-3314-492e-aab5-d5659fbc092f",
+              "name": "The specified project was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":projectId",
+                    "import-postman-collection"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "projectId",
+                      "description": "(Required) The unique identifier of the Apidog project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.",
+                    "key": "X-Apidog-Api-Version",
+                    "value": "2024-03-28"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"{\\\"info\\\":{\\\"name\\\":\\\"Example Collection\\\",\\\"schema\\\":\\\"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\\\"},\\\"item\\\":[]}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.apidog.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "767af043-1fcd-4419-9b45-ebdea420072d",
+    "name": "Apidog Import And Export API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Apidog provides a public REST API that lets developers programmatically interact with Apidog projects for importing and exporting API specifications. All API URLs begin with the base URL https://api.apidog.com. The API is versioned via the `X-Apidog-Api-Version` request header (current version: `2024-03-28`). Authentication uses a personal API access token passed as a Bearer Token in the `Authorization` header.\n\nContact Support:\n Name: Apidog",
+      "type": "text/plain"
+    }
+  }
+}
