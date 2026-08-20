@@ -59,6 +59,8 @@ apis:
   humanURL: https://apidog.com/
   baseURL: https://api.apidog.com
   tags:
+  - Import & Export
+  tags_raw:
   - Import And Export
   properties:
   - type: OpenAPI
