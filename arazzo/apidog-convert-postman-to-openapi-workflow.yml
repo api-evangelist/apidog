@@ -12,8 +12,8 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: apidogApi
-  url: ../openapi/apidog-apidog-openapi.yml
+- name: importAndExportApi
+  url: ../openapi/apidog-import-and-export-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: convert-postman-to-openapi

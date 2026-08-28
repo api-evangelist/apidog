@@ -13,8 +13,8 @@ info:
     the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: apidogApi
-  url: ../openapi/apidog-apidog-openapi.yml
+- name: importAndExportApi
+  url: ../openapi/apidog-import-and-export-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: backup-and-restore-project
