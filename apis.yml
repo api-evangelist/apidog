@@ -59,7 +59,7 @@ apis:
   humanURL: https://apidog.com/
   baseURL: https://api.apidog.com
   tags:
-  - Import And Export
+  - Import & Export
   tags_raw:
   - Import And Export
   properties:
