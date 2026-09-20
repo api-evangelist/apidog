@@ -8,6 +8,9 @@ description: >-
   ships native MCP support: an apidog-mcp-server that feeds API specs to AI coding assistants (Cursor, VS Code + Cline)
   and an MCP Client inside the desktop app that visually debugs MCP servers over STDIO and Streamable HTTP with auto
   OAuth 2.0 configuration.
+x-docs-platform: redoc
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-19
 tags:
 - AI Coding
 - API Design
