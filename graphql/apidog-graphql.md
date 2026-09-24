@@ -1,1 +1,0 @@
-# Apidog GraphQL API

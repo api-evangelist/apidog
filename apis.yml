@@ -106,8 +106,6 @@ apis:
     url: examples/apidog-export-openapi-example.json
   - type: Examples
     url: examples/apidog-import-postman-collection-example.json
-  - type: GraphQL
-    url: graphql/apidog-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/apidog-agentic-access.yml
