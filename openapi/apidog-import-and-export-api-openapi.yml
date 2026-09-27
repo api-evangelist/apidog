@@ -333,18 +333,15 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ExportResult:
+    ImportError:
       type: object
-      description: Result of an export operation. The `data` field contains a fully-formed OpenAPI document.
       properties:
-        success:
-          type: boolean
-          description: Whether the export was successful.
-        data:
-          description: The exported OpenAPI/Swagger document, either as a string (when exportFormat is YAML) or as an object (when exportFormat is JSON).
-          oneOf:
-          - type: string
-          - type: object
+        code:
+          type: string
+          description: Machine-readable error code.
+        message:
+          type: string
+          description: Human-readable error message.
     ImportResult:
       type: object
       description: Result of an import operation.
@@ -369,15 +366,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ImportError'
-    ImportError:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Machine-readable error code.
-        message:
-          type: string
-          description: Human-readable error message.
     ResourceCounters:
       type: object
       description: Counters returned for each resource type after an import operation.
@@ -394,6 +382,18 @@ components:
         ignored:
           type: integer
           description: Number of resources ignored (e.g. due to keep-existing policy).
+    ExportResult:
+      type: object
+      description: Result of an export operation. The `data` field contains a fully-formed OpenAPI document.
+      properties:
+        success:
+          type: boolean
+          description: Whether the export was successful.
+        data:
+          description: The exported OpenAPI/Swagger document, either as a string (when exportFormat is YAML) or as an object (when exportFormat is JSON).
+          oneOf:
+          - type: string
+          - type: object
     Error:
       type: object
       description: Standard error response.
@@ -419,6 +419,13 @@ components:
       schema:
         type: string
         example: '2024-03-28'
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The unique identifier of the Apidog project.
+      schema:
+        type: integer
     locale:
       name: locale
       in: query
@@ -427,13 +434,6 @@ components:
       schema:
         type: string
         example: en-US
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The unique identifier of the Apidog project.
-      schema:
-        type: integer
   responses:
     UnprocessableEntity:
       description: The API version header is missing or unsupported.
@@ -441,14 +441,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed. The Bearer Token is missing, invalid, or expired.
+    NotFound:
+      description: The specified project was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified project was not found.
+    Unauthorized:
+      description: Authentication failed. The Bearer Token is missing, invalid, or expired.
       content:
         application/json:
           schema:
