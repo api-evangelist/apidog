@@ -342,6 +342,50 @@ components:
         message:
           type: string
           description: Human-readable error message.
+    ExportResult:
+      type: object
+      description: Result of an export operation. The `data` field contains a fully-formed OpenAPI document.
+      properties:
+        success:
+          type: boolean
+          description: Whether the export was successful.
+        data:
+          description: The exported OpenAPI/Swagger document, either as a string (when exportFormat is YAML) or as an object (when exportFormat is JSON).
+          oneOf:
+          - type: string
+          - type: object
+    ResourceCounters:
+      type: object
+      description: Counters returned for each resource type after an import operation.
+      properties:
+        created:
+          type: integer
+          description: Number of resources created.
+        updated:
+          type: integer
+          description: Number of resources updated.
+        failed:
+          type: integer
+          description: Number of resources that failed to import.
+        ignored:
+          type: integer
+          description: Number of resources ignored (e.g. due to keep-existing policy).
+    Error:
+      type: object
+      description: Standard error response.
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code.
+            message:
+              type: string
+              description: Human-readable error message.
     ImportResult:
       type: object
       description: Result of an import operation.
@@ -366,83 +410,9 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ImportError'
-    ResourceCounters:
-      type: object
-      description: Counters returned for each resource type after an import operation.
-      properties:
-        created:
-          type: integer
-          description: Number of resources created.
-        updated:
-          type: integer
-          description: Number of resources updated.
-        failed:
-          type: integer
-          description: Number of resources that failed to import.
-        ignored:
-          type: integer
-          description: Number of resources ignored (e.g. due to keep-existing policy).
-    ExportResult:
-      type: object
-      description: Result of an export operation. The `data` field contains a fully-formed OpenAPI document.
-      properties:
-        success:
-          type: boolean
-          description: Whether the export was successful.
-        data:
-          description: The exported OpenAPI/Swagger document, either as a string (when exportFormat is YAML) or as an object (when exportFormat is JSON).
-          oneOf:
-          - type: string
-          - type: object
-    Error:
-      type: object
-      description: Standard error response.
-      properties:
-        success:
-          type: boolean
-          example: false
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code.
-            message:
-              type: string
-              description: Human-readable error message.
-  parameters:
-    apidogApiVersion:
-      name: X-Apidog-Api-Version
-      in: header
-      required: true
-      description: The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.
-      schema:
-        type: string
-        example: '2024-03-28'
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The unique identifier of the Apidog project.
-      schema:
-        type: integer
-    locale:
-      name: locale
-      in: query
-      required: false
-      description: Locale for response messages, e.g. `en-US`.
-      schema:
-        type: string
-        example: en-US
   responses:
     UnprocessableEntity:
       description: The API version header is missing or unsupported.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified project was not found.
       content:
         application/json:
           schema:
@@ -453,6 +423,36 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified project was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The unique identifier of the Apidog project.
+      schema:
+        type: integer
+    apidogApiVersion:
+      name: X-Apidog-Api-Version
+      in: header
+      required: true
+      description: The Apidog API version. Required for all requests. Current supported version is `2024-03-28`. Apidog supports previous versions for at least three months after a newer version launches.
+      schema:
+        type: string
+        example: '2024-03-28'
+    locale:
+      name: locale
+      in: query
+      required: false
+      description: Locale for response messages, e.g. `en-US`.
+      schema:
+        type: string
+        example: en-US
   securitySchemes:
     bearerAuth:
       type: http
