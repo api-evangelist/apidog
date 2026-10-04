@@ -333,43 +333,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ImportError:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Machine-readable error code.
-        message:
-          type: string
-          description: Human-readable error message.
-    ExportResult:
-      type: object
-      description: Result of an export operation. The `data` field contains a fully-formed OpenAPI document.
-      properties:
-        success:
-          type: boolean
-          description: Whether the export was successful.
-        data:
-          description: The exported OpenAPI/Swagger document, either as a string (when exportFormat is YAML) or as an object (when exportFormat is JSON).
-          oneOf:
-          - type: string
-          - type: object
-    ResourceCounters:
-      type: object
-      description: Counters returned for each resource type after an import operation.
-      properties:
-        created:
-          type: integer
-          description: Number of resources created.
-        updated:
-          type: integer
-          description: Number of resources updated.
-        failed:
-          type: integer
-          description: Number of resources that failed to import.
-        ignored:
-          type: integer
-          description: Number of resources ignored (e.g. due to keep-existing policy).
     Error:
       type: object
       description: Standard error response.
@@ -410,9 +373,46 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ImportError'
+    ExportResult:
+      type: object
+      description: Result of an export operation. The `data` field contains a fully-formed OpenAPI document.
+      properties:
+        success:
+          type: boolean
+          description: Whether the export was successful.
+        data:
+          description: The exported OpenAPI/Swagger document, either as a string (when exportFormat is YAML) or as an object (when exportFormat is JSON).
+          oneOf:
+          - type: string
+          - type: object
+    ImportError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code.
+        message:
+          type: string
+          description: Human-readable error message.
+    ResourceCounters:
+      type: object
+      description: Counters returned for each resource type after an import operation.
+      properties:
+        created:
+          type: integer
+          description: Number of resources created.
+        updated:
+          type: integer
+          description: Number of resources updated.
+        failed:
+          type: integer
+          description: Number of resources that failed to import.
+        ignored:
+          type: integer
+          description: Number of resources ignored (e.g. due to keep-existing policy).
   responses:
-    UnprocessableEntity:
-      description: The API version header is missing or unsupported.
+    NotFound:
+      description: The specified project was not found.
       content:
         application/json:
           schema:
@@ -423,20 +423,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified project was not found.
+    UnprocessableEntity:
+      description: The API version header is missing or unsupported.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The unique identifier of the Apidog project.
-      schema:
-        type: integer
     apidogApiVersion:
       name: X-Apidog-Api-Version
       in: header
@@ -445,6 +438,13 @@ components:
       schema:
         type: string
         example: '2024-03-28'
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The unique identifier of the Apidog project.
+      schema:
+        type: integer
     locale:
       name: locale
       in: query

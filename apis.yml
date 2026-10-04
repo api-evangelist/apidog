@@ -1,6 +1,9 @@
 aid: apidog
+
 url: https://raw.githubusercontent.com/api-evangelist/apidog/refs/heads/main/apis.yml
+
 name: Apidog
+
 description: >-
   Apidog is an all-in-one API development platform that connects the entire API lifecycle: visual API design,
   multi-protocol debugging (HTTP, REST, GraphQL, gRPC, WebSocket, SOAP, SSE), automated testing with a CLI, smart
@@ -8,9 +11,13 @@ description: >-
   ships native MCP support: an apidog-mcp-server that feeds API specs to AI coding assistants (Cursor, VS Code + Cline)
   and an MCP Client inside the desktop app that visually debugs MCP servers over STDIO and Streamable HTTP with auto
   OAuth 2.0 configuration.
+
 x-docs-platform: redoc
+
 x-docs-platform-confidence: medium
+
 x-docs-platform-checked: 2026-09-19
+
 tags:
 - AI Coding
 - API Design
@@ -24,7 +31,9 @@ tags:
 - Mocking
 - Platform
 - Testing
+
 type: Index
+
 deliveryModel:
   model: saas
   open_source: false
@@ -37,6 +46,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -51,63 +61,44 @@ accessModel:
   - security
   generated: '2026-09-03'
   method: derived
+
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/apidog.png
+
 access: 3rd-Party
+
 created: '2025-01-08'
+
 modified: '2026-05-22'
+
 position: Consuming
+
 specificationVersion: '0.23'
-apis:
-- aid: apidog:apidog-import-and-export-api
-  name: Apidog Import And Export API
-  description: >-
-    Import and export API specification data in OpenAPI, Swagger, and Postman Collection formats.
-  humanURL: https://apidog.com/
-  baseURL: https://api.apidog.com
-  tags:
-  - Import And Export
-  tags_raw:
-  - Import And Export
-  properties:
-  - type: OpenAPI
-    url: openapi/apidog-import-and-export-api-openapi.yml
-  - type: Documentation
-    url: https://openapi.apidog.io/
-  - type: GettingStarted
-    url: https://docs.apidog.com/overview-644404m0
-  - type: Authentication
-    url: https://docs.apidog.com/api-access-tokens
-  - type: TermsOfService
-    url: https://legal.apidog.com/
-  - type: Pricing
-    url: https://apidog.com/pricing/
-  - type: Plans
-    url: plans/apidog-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/apidog-rate-limits.yml
-  - type: FinOps
-    url: finops/apidog-finops.yml
-  - type: SpectralRules
-    url: rules/apidog-rules.yml
-  - type: JSONSchema
-    url: json-schema/apidog-project-schema.json
-  - type: JSONSchema
-    url: json-schema/apidog-import-result-schema.json
-  - type: JSONSchema
-    url: json-schema/apidog-export-result-schema.json
-  - type: JSONSchema
-    url: json-schema/apidog-error-schema.json
-  - type: JSONLD
-    url: json-ld/apidog-context.jsonld
-  - type: Vocabulary
-    url: vocabulary/apidog-vocabulary.yaml
-  - type: Examples
-    url: examples/apidog-import-openapi-example.json
-  - type: Examples
-    url: examples/apidog-export-openapi-example.json
-  - type: Examples
-    url: examples/apidog-import-postman-collection-example.json
+
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com
+
 common:
+- type: Spectral
+  url: rules/apidog-rules.yml
+- type: Spectral
+  url: rules/apidog-jsonschema-spectral-rules.yml
+- type: Vocabulary
+  url: vocabulary/apidog-vocabulary.yml
+- type: DataModel
+  url: data-model/apidog-data-model.yml
+- type: Compliance
+  url: https://apidog.com:443/
+- type: ErrorCatalog
+  url: errors/apidog-problem-types.yml
+- type: Conformance
+  url: conformance/apidog-conformance.yml
+- type: LLMsTxt
+  url: llms/apidog-llms.txt
+- type: Hosts
+  url: hosts/apidog-hosts.yml
+- type: Vendors
+  url: vendors/apidog-vendors.yml
 - type: VendorFacets
   url: vendor-facets/apidog-vendor-facets.yml
 - type: AgenticAccess
@@ -281,6 +272,60 @@ common:
       coding assistants.
 - type: LlmsText
   url: https://docs.apidog.com/llms.txt
-maintainers:
-- FN: Kin Lane
-  email: info@apievangelist.com
+
+apis:
+- aid: apidog:apidog-import-and-export-api
+  name: Apidog Import And Export API
+  description: >-
+    Import and export API specification data in OpenAPI, Swagger, and Postman Collection formats.
+  humanURL: https://apidog.com/
+  baseURL: https://api.apidog.com
+  tags:
+  - Import And Export
+  tags_raw:
+  - Import And Export
+  properties:
+  - type: OpenAPI
+    url: openapi/apidog-import-and-export-api-openapi.yml
+  - type: Documentation
+    url: https://openapi.apidog.io/
+  - type: GettingStarted
+    url: https://docs.apidog.com/overview-644404m0
+  - type: Authentication
+    url: https://docs.apidog.com/api-access-tokens
+  - type: TermsOfService
+    url: https://legal.apidog.com/
+  - type: Pricing
+    url: https://apidog.com/pricing/
+  - type: Plans
+    url: plans/apidog-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/apidog-rate-limits.yml
+  - type: FinOps
+    url: finops/apidog-finops.yml
+  - type: SpectralRules
+    url: rules/apidog-rules.yml
+  - type: JSONSchema
+    url: json-schema/apidog-project-schema.json
+  - type: JSONSchema
+    url: json-schema/apidog-import-result-schema.json
+  - type: JSONSchema
+    url: json-schema/apidog-export-result-schema.json
+  - type: JSONSchema
+    url: json-schema/apidog-error-schema.json
+  - type: JSONLD
+    url: json-ld/apidog-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/apidog-vocabulary.yaml
+  - type: Examples
+    url: examples/apidog-import-openapi-example.json
+  - type: Examples
+    url: examples/apidog-export-openapi-example.json
+  - type: Examples
+    url: examples/apidog-import-postman-collection-example.json
+x-enrichment:
+  date: '2026-10-04'
+  status: enriched
+  artifacts_added: 11
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local
