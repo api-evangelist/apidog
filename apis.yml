@@ -108,6 +108,12 @@ apis:
   - type: Examples
     url: examples/apidog-import-postman-collection-example.json
 common:
+- type: Plans
+  url: plans/apidog-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/apidog-rate-limits.yml
+- type: FinOps
+  url: finops/apidog-finops.yml
 - type: VendorFacets
   url: vendor-facets/apidog-vendor-facets.yml
 - type: AgenticAccess
