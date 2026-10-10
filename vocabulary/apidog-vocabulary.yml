@@ -1,0 +1,40 @@
+generated: '2026-10-05'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/apidog-import-and-export-api-openapi.yml
+vocabulary:
+  name: Apidog Domain Vocabulary
+  description: 'Terms declared by Apidog''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-05'
+  terms:
+  - term: Import And Export
+    definition: Import and export API specification data in OpenAPI, Swagger, and Postman Collection formats.
+    tags:
+    - Resource Group
+    source: openapi/apidog-import-and-export-api-openapi.yml
+  - term: Error
+    definition: Standard error response.
+    tags:
+    - Object
+    source: openapi/apidog-import-and-export-api-openapi.yml#/components/schemas/Error
+  - term: ImportResult
+    definition: Result of an import operation.
+    tags:
+    - Object
+    source: openapi/apidog-import-and-export-api-openapi.yml#/components/schemas/ImportResult
+  - term: ExportResult
+    definition: Result of an export operation. The `data` field contains a fully-formed OpenAPI document.
+    tags:
+    - Object
+    source: openapi/apidog-import-and-export-api-openapi.yml#/components/schemas/ExportResult
+  - term: ImportError
+    definition: 'Object declared by the contract with fields: code, message.'
+    tags:
+    - Object
+    source: openapi/apidog-import-and-export-api-openapi.yml#/components/schemas/ImportError
+  - term: ResourceCounters
+    definition: Counters returned for each resource type after an import operation.
+    tags:
+    - Object
+    source: openapi/apidog-import-and-export-api-openapi.yml#/components/schemas/ResourceCounters

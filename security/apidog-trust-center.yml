@@ -1,4 +1,4 @@
-generated: '2026-07-11'
+generated: '2026-10-10'
 method: searched
 probe: true
 source: https://apidog.com:443/
@@ -12,4 +12,5 @@ evidence:
   keywords:
   - soc 2
   - iso 27001
+  - compliance certification
   - gdpr

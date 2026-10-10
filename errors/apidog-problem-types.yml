@@ -1,0 +1,34 @@
+generated: '2026-10-05'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/apidog-import-and-export-api-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: Error
+coverage:
+  operations: 3
+  statuses_declared: 3
+problems:
+- status: 401
+  title: Unauthorized
+  description: Authentication failed. The Bearer Token is missing, invalid, or expired.
+  operations: 3
+  media_types:
+  - application/json
+  schema: Error
+- status: 404
+  title: Not Found
+  description: The specified project was not found.
+  operations: 3
+  media_types:
+  - application/json
+  schema: Error
+- status: 422
+  title: Unprocessable Content
+  description: The API version header is missing or unsupported.
+  operations: 1
+  media_types:
+  - application/json
+  schema: Error

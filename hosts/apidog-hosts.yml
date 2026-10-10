@@ -1,0 +1,198 @@
+generated: '2026-10-05'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 14
+  own: 7
+  other_domain: 3
+  platform: 4
+  roles:
+  - api
+  - docs
+  - legal
+  - other
+  - security
+  - source
+  - status
+  - website
+hosts:
+- host: api.apidog.com
+  found_by:
+  - apis[]
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types: []
+  serves:
+  - api
+  registrable_domain: apidog.com
+  role: api
+  relation: own
+- host: api.apidog.com:443
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: apidog.com:443
+  role: api
+  relation: other-domain
+- host: apidog.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - Website
+  - Pricing
+  - Blog
+  - ReleaseNotes
+  - Articles
+  serves:
+  - docs
+  registrable_domain: apidog.com
+  role: website
+  relation: own
+- host: apidog.com:443
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - Compliance
+  serves: []
+  registrable_domain: apidog.com:443
+  role: other
+  relation: other-domain
+- host: app.apidog.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: apidog.com
+  role: other
+  relation: own
+- host: docs.apidog.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - namespace-probe
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Documentation
+  - GettingStarted
+  - Support
+  - CLI
+  - MCPServer
+  - MCPClient
+  - LlmsText
+  serves:
+  - docs
+  - documentation
+  title: Apidog Learning Center - Apidog Docs
+  status: 200
+  vendor: redoc
+  registrable_domain: apidog.com
+  role: docs
+  relation: own
+- host: docs.apidog.com:443
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  - docs-index
+  types: []
+  serves:
+  - docs
+  title: Apidog Learning Center - Apidog Docs
+  status: 200
+  registrable_domain: apidog.com:443
+  role: docs
+  relation: other-domain
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  - RoadMap
+  - SDKs
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: legal.apidog.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - TermsOfService
+  serves: []
+  registrable_domain: apidog.com
+  role: legal
+  relation: own
+- host: status.apidog.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - well-known
+  - vendor-detect
+  types:
+  - StatusPage
+  serves:
+  - status-page
+  vendor: betterstack
+  registrable_domain: apidog.com
+  role: status
+  relation: own
+- host: trust.apidog.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - well-known
+  types:
+  - Security
+  serves: []
+  registrable_domain: apidog.com
+  role: security
+  relation: own
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform
+- host: www.npmjs.com
+  found_by:
+  - pointer
+  types:
+  - PackageManager
+  - MCPServer
+  serves: []
+  registrable_domain: npmjs.com
+  role: other
+  relation: platform
+- host: www.postman.com
+  found_by:
+  - pointer
+  types:
+  - PostmanWorkspace
+  serves: []
+  registrable_domain: postman.com
+  role: other
+  relation: platform

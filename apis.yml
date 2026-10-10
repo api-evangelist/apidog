@@ -79,6 +79,8 @@ maintainers:
   email: info@apievangelist.com
 
 common:
+- type: AgentSkill
+  url: skills/_index.yml
 - type: Spectral
   url: rules/apidog-rules.yml
 - type: Spectral
@@ -323,9 +325,3 @@ apis:
     url: examples/apidog-export-openapi-example.json
   - type: Examples
     url: examples/apidog-import-postman-collection-example.json
-x-enrichment:
-  date: '2026-10-04'
-  status: enriched
-  artifacts_added: 11
-  pass: modular-v1
-  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local

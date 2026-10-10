@@ -1,0 +1,16 @@
+generated: '2026-10-05'
+method: searched
+source: ["https://docs.apidog.com/request-routing-and-data-security-1032926m0.md"]
+signals:
+  data_subject_request:
+    - source: https://docs.apidog.com/request-routing-and-data-security-1032926m0.md
+      http_status: 200
+      fetched: true
+      quote: "Apidog server does NOT keep any record of the requests"
+      note: Indicates that users can request that no logs of their API calls are retained, reflecting a data subject request handling policy.
+  data_security:
+    - source: https://docs.apidog.com/request-routing-and-data-security-1032926m0.md
+      http_status: 200
+      fetched: true
+      quote: "Ensures data privacy and security"
+      note: General statement of commitment to data security.
