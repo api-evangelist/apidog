@@ -6,6 +6,7 @@ specification: FinOps Framework
 specificationVersion: '1.0'
 provider: Apidog
 providerId: apidog
+name: Apidog API FinOps
 publisherName: Apidog
 serviceCategory: Developer Tools
 created: '2026-05-04'
