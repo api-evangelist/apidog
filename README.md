@@ -1,4 +1,4 @@
-# Apidog (apidog)
+# Apidog
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,102 +66,196 @@
 
 Apidog is an all-in-one API development platform that connects the entire API lifecycle: visual API design, multi-protocol debugging (HTTP, REST, GraphQL, gRPC, WebSocket, SOAP, SSE), automated testing with a CLI, smart mocking, and published interactive documentation - all in a single collaborative workspace. As of 2026 Apidog also ships native MCP support: an apidog-mcp-server that feeds API specs to AI coding assistants (Cursor, VS Code + Cline) and an MCP Client inside the desktop app that visually debugs MCP servers over STDIO and Streamable HTTP with auto OAuth 2.0 configuration.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/apidog/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/apidog/refs/heads/main/apis.yml)
+**Areas:** AI Coding · API Design · API Lifecycle · API Testing · Collaboration · Design-First · Developer Tools · Documentation · MCP · Mocking · Platform · Testing
 
-## Scope
+## Apidog on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Apidog is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/apidog/](https://apis.io/providers/apidog/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (1)
 
-- AI Coding
-- API Design
-- API Lifecycle
-- API Testing
-- Collaboration
-- Design-First
-- Documentation
-- MCP
-- Mocking
-- Platform
+- [Apidog Import And Export API](https://apis.io/apis/apidog/apidog-import-and-export-api/) — Import and export API specification data in OpenAPI, Swagger, and Postman Collection formats.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-01-08
-- **Modified:** 2026-05-22
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Arazzo workflows (9)
 
-### Apidog
+Multi-step workflows that chain operations into a business task.
 
-Apidog's public REST API at https://api.apidog.com lets developers programmatically import API specifications into Apidog projects (OpenAPI 3, Swagger 2, Postman Collection v2) and export Apidog projects back out as OpenAPI 2.0, 3.0, or 3.1. The API is versioned via the X-Apidog-Api-Version header (current: 2024-03-28) and authenticated with a personal API access token sent as a Bearer Token.
+- [Apidog Backup And Restore Project](https://apis.io/arazzos/apidog/apidog-backup-and-restore-project-workflow/)
+- [Apidog Consolidate Sources Into One Project](https://apis.io/arazzos/apidog/apidog-consolidate-sources-into-project-workflow/)
+- [Apidog Convert Postman Collection To OpenAPI](https://apis.io/arazzos/apidog/apidog-convert-postman-to-openapi-workflow/)
+- [Apidog Downgrade OpenAPI Version](https://apis.io/arazzos/apidog/apidog-downgrade-oas-version-workflow/)
+- [Apidog Dual-Format Export Archive](https://apis.io/arazzos/apidog/apidog-dual-format-export-archive-workflow/)
+- [Apidog Import Spec From URL And Verify](https://apis.io/arazzos/apidog/apidog-import-from-url-and-verify-workflow/)
+- [Apidog Migrate Spec Between Projects](https://apis.io/arazzos/apidog/apidog-migrate-spec-between-projects-workflow/)
+- [Apidog Promote Spec Between Branches](https://apis.io/arazzos/apidog/apidog-promote-spec-between-branches-workflow/)
+- [Apidog Sync Module Across Projects](https://apis.io/arazzos/apidog/apidog-sync-module-across-projects-workflow/)
 
-- **Human URL:** [https://apidog.com/](https://apidog.com/)
-- **Base URL:** `https://api.apidog.com`
+#### GraphQL (1)
 
-#### Tags
+GraphQL schemas.
 
-- API Design
-- API Lifecycle
-- Documentation
-- Import
-- Export
+- [Moved to /providers/apidog/](https://apis.io/graphqls/apidog/apidog-graphql/)
 
-#### Properties
+#### MCP servers (2)
 
-- [Documentation](https://openapi.apidog.io/)
-- [Getting Started](https://docs.apidog.com/overview-644404m0)
-- [Authentication](https://docs.apidog.com/api-access-tokens)
-- [OpenAPI](openapi/apidog-apidog-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/apidog-apidog.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/apidog-apidog.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Terms of Service](https://legal.apidog.com/)
-- [Pricing](https://apidog.com/pricing/)
-- [Plans](plans/apidog-plans-pricing.yml)
-- [Rate Limits](rate-limits/apidog-rate-limits.yml)
-- [Fin Ops](finops/apidog-finops.yml)
-- [Spectral Rules](rules/apidog-rules.yml)
-- [JSON Schema](json-schema/apidog-project-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/apidog-import-result-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/apidog-export-result-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/apidog-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/apidog-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Vocabulary](vocabulary/apidog-vocabulary.yaml)
-- [Example](examples/apidog-import-openapi-example.json)
-- [Example](examples/apidog-export-openapi-example.json)
-- [Example](examples/apidog-import-postman-collection-example.json)
+Model Context Protocol servers that expose the API to agents.
 
-## Common Properties
+- [apidog-mcp-server](https://apis.io/servers/apidog/apidog-mcp-server/)
+- [apidog-mcp-server](https://apis.io/servers/apidog/apidog-mcp-server-2/)
 
-- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
-- [LinkedIn](https://www.linkedin.com/company/apidog)
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Apidog Agentic Access](https://apis.io/agentic-access/apidog/apidog-agentic-access/)
+
+#### JSON Schema (4)
+
+The data models the API reads and writes.
+
+- [Apidog Error](https://apis.io/schemas/apidog/apidog-error/)
+- [Apidog Export Result](https://apis.io/schemas/apidog/apidog-export-result/)
+- [Apidog Import Result](https://apis.io/schemas/apidog/apidog-import-result/)
+- [Apidog Project](https://apis.io/schemas/apidog/apidog-project/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Apidog Context](https://apis.io/jsonld/apidog/apidog-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Apidog Vocabulary](https://apis.io/vocabularies/apidog/apidog-vocabulary/)
+
+#### Examples (3)
+
+Example requests and responses.
+
+- [Apidog Export Openapi Example](https://apis.io/examples/apidog/apidog-export-openapi-example/)
+- [Apidog Import Openapi Example](https://apis.io/examples/apidog/apidog-import-openapi-example/)
+- [Apidog Import Postman Collection Example](https://apis.io/examples/apidog/apidog-import-postman-collection-example/)
+
+#### Collections (3)
+
+Postman and Open Collection request collections.
+
+- [Apidog API](https://apis.io/collections/apidog/open-apidog-apidog/)
+- [Apidog Import And Export API](https://apis.io/collections/apidog/open-apidog-import-and-export-api/)
+- [Apidog API](https://apis.io/collections/apidog/postman-apidog-apidog/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Apidog Openapi Overlay](https://apis.io/overlays/apidog/apidog-openapi-overlay/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Apidog — jsonschema rules](https://apis.io/rules/apidog/apidog-jsonschema-spectral-rules/)
+- [Apidog API Rules](https://apis.io/rules/apidog/apidog-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Apidog Authentication](https://apis.io/security/apidog/apidog-authentication/)
+- [Apidog Domain Security](https://apis.io/security/apidog/apidog-domain-security/)
+- [Apidog Trust Center](https://apis.io/security/apidog/apidog-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Apidog Plans Pricing](https://apis.io/plans/apidog/apidog-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Apidog Rate Limits](https://apis.io/rate-limits/apidog/apidog-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Apidog Finops](https://apis.io/finops/apidog/apidog-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://apidog.com/)
 - [Documentation](https://docs.apidog.com/)
-- [Getting Started](https://docs.apidog.com/overview-644404m0)
+- [Getting started](https://docs.apidog.com/overview-644404m0)
 - [Pricing](https://apidog.com/pricing/)
-- [Blog](https://apidog.com/blog/)
-- [Release Notes](https://apidog.com/blog/product-updates/)
-- [Status Page](https://status.apidog.com/)
-- [Articles](https://apidog.com/articles/)
-- [Terms of Service](https://legal.apidog.com/)
-- [Security](https://trust.apidog.com/)
 - [Support](https://docs.apidog.com/apidog-support-center-748035m0)
-- [GitHub Organization](https://github.com/Apidog)
-- [Roadmap](https://github.com/Apidog/roadmap)
-- [C L I](https://docs.apidog.com/installing-and-running-apidog-cli-605135m0)
-- [Package Manager](https://www.npmjs.com/package/apidog-cli)
-- [M C P Server](https://docs.apidog.com/apidog-mcp-server)
-- [M C P Server](https://www.npmjs.com/package/apidog-mcp-server)
-- [M C P Client](https://docs.apidog.com/mcp-client-1930835m0)
-- [SDK](https://github.com/Apidog/apidog-locales)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [L L Ms Txt](https://docs.apidog.com/llms.txt)
+- [Blog](https://apidog.com/blog/)
+- [Security](https://trust.apidog.com/)
+- [Compliance](https://apidog.com:443/)
+- [Terms of service](https://legal.apidog.com/)
+- [GitHub](https://github.com/Apidog)
+- [Status](https://status.apidog.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** info@apievangelist.com
+**Kin Score 52.9** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 68.0 |
+| Contract governance | 31.8 |
+| Operational transparency | 60.5 |
+| Developer ergonomics | 45.8 |
+| Access clarity | 34.2 |
+
+**Agent readiness 26.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 25.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/apidog/](https://apis.io/providers/apidog/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Apidog: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/apidog/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
