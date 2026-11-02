@@ -1,0 +1,111 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://apidog.com/pricing/
+sources:
+- https://apidog.com/pricing/
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T161713
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: per-seat
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-10-28'
+  evidence: Enterprise On-premises Built for enterprises requiring self-hosted infrastructure, complete
+    data sovereignty, and air-gapped security controls.
+  managed_tier: Basic
+published: true
+note: Per-seat tiers with yearly/monthly toggle (25% discount shown); 14-day free trial; 50% nonprofit/education
+  discount.
+plan_count: 5
+currency: USD
+plans:
+- name: Free
+  price_text: $ 0
+  price: 0
+  currency: USD
+  period: month
+  unit: per user / month
+  included_quota: All core features for up to 4 users; Cloud mock server 10K calls / month
+- name: Basic
+  price_text: $ 9
+  price: 9
+  currency: USD
+  period: month
+  unit: per user / month
+  included_quota: All Free features, plus unlimited team members, 90-day API change history, up to 20
+    team projects
+- name: Professional
+  price_text: $ 18
+  price: 18
+  currency: USD
+  period: month
+  unit: per user / month
+  included_quota: All Basic features, plus Doc IP allowlist, 180-day API change history
+- name: Enterprise
+  price_text: $ 27
+  price: 27
+  currency: USD
+  period: month
+  unit: per user / month
+  included_quota: All Professional features, plus SAML SSO, SCIM, on-premises options
+- name: Enterprise On-premises
+  price_text: Contact Sales
+  period: none
+  included_quota: Self-hosted Docker/K8s, air-gapped deployment, Private API Hub
+rate_limit_statements:
+- Cloud mock server 10K calls / month 50K calls / month 100K calls / month 1M calls / month Unlimited
+- Mock via runner 100K calls / month 1M calls / month 10M calls / month Unlimited Unlimited
+- Scheduled tasks via runner 10k run steps / month 1m run steps / month 10m run steps / month Unlimited
+  Unlimited
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  - seat
+  units:
+  - seat
+  plans:
+  - name: Free
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Basic
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Professional
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Enterprise On-premises
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
