@@ -5,6 +5,9 @@ artifacts:
   agentic-access/apidog-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  ai-preferences/apidog-ai-preferences.yml:
+    method: harvested
+    evidence: declared in the artifact
   arazzo/apidog-backup-and-restore-project-workflow.yml:
     method: derived
     evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
@@ -35,6 +38,12 @@ artifacts:
   authentication/apidog-authentication.yml:
     method: derived
     evidence: declared in the artifact
+  certification/observations-2026-11-11.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/status.yml:
+    method: unknown
+    evidence: no authorship recorded
   collections/apidog-apidog.opencollection.json:
     method: unknown
     evidence: no authorship recorded
@@ -47,11 +56,20 @@ artifacts:
   collections/apidog-import-and-export-api.postman_collection.json:
     method: derived
     evidence: openapi/apidog-import-and-export-api
+  compliance/apidog-compliance.yml:
+    method: harvested
+    evidence: declared in the artifact
   conformance/apidog-conformance.yml:
     method: derived
     evidence: declared in the artifact
+  data-license/apidog-data-license.yml:
+    method: harvested
+    evidence: declared in the artifact
   data-model/apidog-data-model.yml:
     method: derived
+    evidence: declared in the artifact
+  eligibility/apidog-eligibility.yml:
+    method: harvested
     evidence: declared in the artifact
   errors/apidog-problem-types.yml:
     method: derived
@@ -72,6 +90,12 @@ artifacts:
     method: unknown
     evidence: no authorship recorded
   heartbeat/2026-11-02.yml:
+    method: unknown
+    evidence: no authorship recorded
+  heartbeat/2026-11-06.yml:
+    method: unknown
+    evidence: no authorship recorded
+  heartbeat/2026-11-13.yml:
     method: unknown
     evidence: no authorship recorded
   hosts/apidog-hosts.yml:
@@ -101,7 +125,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -170,6 +194,9 @@ artifacts:
   kin/score-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   llms/apidog-llms-provenance.yml:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
@@ -227,6 +254,9 @@ artifacts:
     evidence: no authorship recorded
   sla/apidog-sla.yml:
     method: searched
+    evidence: declared in the artifact
+  terms/apidog-terms-of-service.yml:
+    method: harvested
     evidence: declared in the artifact
   vendor-facets/apidog-vendor-facets.yml:
     method: unknown
